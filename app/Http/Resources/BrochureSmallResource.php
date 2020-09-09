@@ -21,7 +21,7 @@ class BrochureSmallResource extends JsonResource
             // download link            //link will download by google chrome app
             // days remaining
             'id' => $this->id,
-            'image' => $this->image,
+            'image' => asset($this->medias->first()->file),
             'name' => $this->name,
             'download_link ' => $this->download_link,
             'days_remaining' => $this->day,

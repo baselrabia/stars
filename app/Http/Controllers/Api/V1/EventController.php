@@ -7,11 +7,14 @@ use App\Http\Resources\EventLargeResource;
 use App\Http\Resources\EventSmallCollection;
 use App\Http\Resources\EventSmallResource;
 use App\Models\Event;
+use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
+    use ApiResponder;
+
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +24,7 @@ class EventController extends Controller
     {
         $events = Event::active()->priority()->prioritySorted()->paginate(3);
 
-        return new EventSmallCollection($events);
+        return $this->respondWithCollection(new EventSmallCollection($events));
     }
 
 
@@ -33,9 +36,11 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        $provider_id =  Auth::user()->provider->id;
-        $event = Event::create( array_merge($request->all(),['provider_id' => $provider_id] ) );
-        return new EventSmallResource($event);
+        $image = upload($request->image, 'events');
+        //$provider_id =  Auth::user()->provider->id;
+        $event = Event::create( array_merge($request->all(),['provider_id' => $request->provider_id] ) );
+        storeMedia($image , $event->id ,'App\Models\Event');
+        return $this->respondCreated(new EventSmallResource($event));
     }
 
     /**
@@ -59,7 +64,7 @@ class EventController extends Controller
                         ->where('type', $input['event_type'] )
                         ->orderBy("created_at", $input['sort_type'])->paginate(3);
 
-        return new EventSmallCollection($events);
+        return $this->respondWithCollection(new EventSmallCollection($events));
     }
 
     /**
@@ -71,7 +76,7 @@ class EventController extends Controller
     public function show(Event $event)
     {
 
-        return new EventLargeResource($event);
+        return $this->respondCreated(new EventLargeResource($event));
 
     }
 

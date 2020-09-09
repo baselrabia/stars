@@ -3,15 +3,19 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BusinessDeals\BusinessDealStoreRequest;
 use App\Http\Resources\BusinessDealLargeResource;
 use App\Http\Resources\BusinessDealSmallCollection;
 use App\Http\Resources\BusinessDealSmallResource;
 use App\Models\BusinessDeal;
+use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class BusinessDealController extends Controller
 {
+    use ApiResponder;
+
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +25,7 @@ class BusinessDealController extends Controller
     {
         $businessDeals = BusinessDeal::active()->priority()->prioritySorted()->paginate(10);
 
-        return new BusinessDealSmallCollection($businessDeals);
+        return $this->respondWithCollection(new BusinessDealSmallCollection($businessDeals));
     }
 
     /**
@@ -30,11 +34,14 @@ class BusinessDealController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BusinessDealStoreRequest $request)
     {
+        $image = upload($request->image, 'businessDeals');
         // $provider_id =  Auth::user()->provider->id;
         $businessDeal = BusinessDeal::create(array_merge($request->all(), ['provider_id' => $request->provider_id]));
-        return new BusinessDealSmallResource($businessDeal);
+        storeMedia($image, $businessDeal->id, 'App\Models\BusinessDeal');
+
+        return $this->respondCreated(new BusinessDealSmallResource($businessDeal));
     }
 
     /**
@@ -45,7 +52,7 @@ class BusinessDealController extends Controller
      */
     public function show(BusinessDeal $businessDeal)
     {
-        return new BusinessDealLargeResource($businessDeal);
+        return $this->respondCreated(new BusinessDealLargeResource($businessDeal));
 
     }
 
@@ -70,7 +77,7 @@ class BusinessDealController extends Controller
         ->where('type', $input['type_business_deal'])
         ->orderBy("created_at", $input['sort_type'])->paginate(10);
 
-        return new BusinessDealSmallCollection($events);
+        return $this->respondWithCollection(new BusinessDealSmallCollection($events));
     }
 
     /**

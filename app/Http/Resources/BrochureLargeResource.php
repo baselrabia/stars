@@ -19,7 +19,7 @@ class BrochureLargeResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'image' => $this->image,
+            'image' => asset($this->medias->first()->file),
             'name' => $this->name,
             'download_link ' => $this->download_link,
             'days_remaining' => $this->day,

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Events;
+namespace App\Http\Requests\BusinessDeals;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EventStoreRequest extends FormRequest
+class BusinessDealStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,17 +24,18 @@ class EventStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:5' ,
+            'name',
             'description' => 'required|min:10',
-            'type' => 'required|in:exhibition,conference,workshop',
-            'start_date' => 'required|',
-            'end_date' => 'required|',
+            'type' => 'required|in:tender,auction,project',
+            'envelope_opening' =>'date_format:Y-m-d',
+            'publication_date'=> 'date_format:Y-m-d',
+            'begin' => 'required|date_format:Y-m-d',
+            'end' => 'required|after:begin|date_format:Y-m-d',
             'time' => 'required|date_format:H:i',
-            'lat' => ['required','regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
-            'lng' => ['required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
-           // 'Video' => 'required|url',
-            'link' => 'required|url',
+            'video' => 'mimes:mp4,mov,ogg,qt|max:20000',
+            'attachment' => 'string',
             'image' => 'image|mimes:jpeg,png,jpg|max:2048',
+
         ];
     }
 }

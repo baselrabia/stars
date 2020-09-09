@@ -12,11 +12,13 @@
 */
 
 use Faker\Generator as Faker;
+use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('/test', function (Faker $faker) {
-   return rand(0, 10);
+   $location = DB::table('Ads_location')->get()->toArray();
+   dd($location[0]->location);
 });

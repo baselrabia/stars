@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Ads;
 use App\Models\Brochure;
 use App\Models\BusinessDeal;
 use App\Models\Event;
@@ -19,7 +20,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(UsersTableSeeder::class);
         // DB::truncate();
 
-        factory(Brochure::class, 10)->create();
+        factory(Ads::class, 10)->create();
        //factory(App\models\EventTranslation::class, 10)->create();
       // factory(App\models\BusinessTypeTranslation::class, 10)->create();
 

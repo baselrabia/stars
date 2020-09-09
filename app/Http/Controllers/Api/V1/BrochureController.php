@@ -3,14 +3,18 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Brochures\BrochureStoreRequest;
 use App\Http\Resources\BrochureLargeResource;
 use App\Http\Resources\BrochureSmallCollection;
 use App\Http\Resources\BrochureSmallResource;
 use App\Models\Brochure;
+use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
 
 class BrochureController extends Controller
 {
+    use ApiResponder;
+
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +24,7 @@ class BrochureController extends Controller
     {
         $brochures = Brochure::active()->priority()->prioritySorted()->paginate(10);
 
-        return new BrochureSmallCollection($brochures);
+        return $this->respondWithCollection(new BrochureSmallCollection($brochures));
     }
 
     /**
@@ -29,11 +33,14 @@ class BrochureController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BrochureStoreRequest $request)
     {
+        $image = upload($request->image, 'brochures');
         // $provider_id =  Auth::user()->provider->id;
         $brochure = Brochure::create(array_merge($request->all(), ['provider_id' => $request->provider_id]));
-        return new BrochureSmallResource($brochure);
+        storeMedia($image, $brochure->id, 'App\Models\Brochure');
+
+        return $this->respondCreated(new BrochureSmallResource($brochure));
     }
 
     /**
@@ -44,7 +51,7 @@ class BrochureController extends Controller
      */
     public function show(Brochure $brochure)
     {
-        return new BrochureLargeResource($brochure);
+        return $this->respondCreated(new BrochureLargeResource($brochure));
     }
 
     /**
@@ -67,7 +74,7 @@ class BrochureController extends Controller
         $brochures = Brochure::where('provider_id', $input['user_id'])
             ->orderBy("created_at", $input['sort_type'])->paginate(10);
 
-        return new BrochureSmallCollection($brochures);
+        return $this->respondWithCollection(new BrochureSmallCollection($brochures));
     }
 
     /**

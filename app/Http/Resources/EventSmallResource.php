@@ -17,14 +17,13 @@ class EventSmallResource extends JsonResource
         return [
             'id' => $this->id,
             'event_type' => $this->type ,        //see sheet "Constant"
-            'image' => $this->image ,
+            'image' => asset($this->medias->first()->file),
             'name' => $this->name ,
             'date_start' => $this->start_date ,                 //formate19/11/2019    in ui page 29
             'date_end' => $this->end_date ,
             // 'location_name' => $this-> ,    //example: National Institute of building sciences المعهد الوطني لعلوم البناء
             'lat' => $this->lat ,
             'lng' => $this->lng,
-            // 'image' => $this->medias->file,
         ];
     }
 }

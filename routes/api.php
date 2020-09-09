@@ -26,3 +26,5 @@ Route::post('business_deals/filter', 'Api\V1\BusinessDealController@filter');
 
 Route::resource('brochures', 'Api\V1\BrochureController');
 Route::post('brochures/filter', 'Api\V1\BrochureController@filter');
+
+Route::resource('ads', 'Api\V1\AdsController');

@@ -24,7 +24,7 @@ class BusinessDealSmallResource extends JsonResource
             // type id of business deals //see "Sheet/constant"
 
             'id' => $this->id,
-            'image' => $this->image,
+            'image' => asset($this->medias->first()->file),
             'name' => $this->name,
             'price' => $this->price,                 //formate19/11/2019    in ui page 29
             'type' => $this->type,
