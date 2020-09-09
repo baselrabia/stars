@@ -53,6 +53,8 @@ class EventController extends Controller
             $input['sort_type'] =  'DESC';
         }
 
+        // $provider_id =  Auth::user()->provider->id;
+
         $events = Event::where('provider_id', $input['user_id'] )
                         ->where('type', $input['event_type'] )
                         ->orderBy("created_at", $input['sort_type'])->paginate(3);

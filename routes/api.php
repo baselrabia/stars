@@ -22,3 +22,6 @@ Route::resource('events', 'Api\V1\EventController');
 Route::post('events/filter', 'Api\V1\EventController@filter');
 
 
+Route::resource('business_deals', 'Api\V1\BusinessDealController');
+
+Route::post('business_deals/filter', 'Api\V1\BusinessDealController@filter');

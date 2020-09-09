@@ -7,26 +7,26 @@ use Illuminate\Database\Eloquent\Model;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
 
-class BusinessDeal extends Model implements TranslatableContract
+class BusinessDeal extends Model
 {
-    use Translatable;
-    public static function boot() {
-        parent::boot();
-        
-        ## add point to provider when create 
-        self::created(function($businessDeal) {
-            $type = class_basename($businessDeal);
-            
-            event(new CreateService($businessDeal,$type));
-        });
-    }
-    
-    public $translatedAttributes = ['name','description'];
+    // use Translatable;
+    // public static function boot() {
+    //     parent::boot();
+
+    //     ## add point to provider when create
+    //     self::created(function($businessDeal) {
+    //         $type = class_basename($businessDeal);
+
+    //         event(new CreateService($businessDeal,$type));
+    //     });
+    // }
+
+    // public $translatedAttributes = ['name','description'];
 
     protected $fillable = [
     	'name','description','type','lat','lng','status','provider_id','priority','envelope_opening','image','publication_date','time','end','begin','video','attachment'
-    ]; 
-    
+    ];
+
     public function scopeActive($query)
     {
         return $query->where('status', 1);

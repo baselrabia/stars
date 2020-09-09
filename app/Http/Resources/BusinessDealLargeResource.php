@@ -21,7 +21,7 @@ class BusinessDealLargeResource extends JsonResource
             'id' => $this->id,
             'image' => $this->image,
             'name' => $this->name,
-            'price' => $this->start_date,                 //formate19/11/2019    in ui page 29
+            'price' => $this->price,                 //formate19/11/2019    in ui page 29
             'type' => $this->type,
             'related_business_deals' => new BusinessDealSmallCollection($relatedBusinessDeals),
 
