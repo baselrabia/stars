@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Events\EventStoreRequest;
 use App\Http\Resources\EventLargeResource;
 use App\Http\Resources\EventSmallCollection;
 use App\Http\Resources\EventSmallResource;
@@ -15,6 +16,12 @@ class EventController extends Controller
 {
     use ApiResponder;
 
+    public function __constract()
+    {
+        // $this->middleware('auth:api')->only('store');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +29,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::active()->priority()->prioritySorted()->paginate(3);
+        $events = Event::active()->prioritySorted()->paginate(3);
 
         return $this->respondWithCollection(new EventSmallCollection($events));
     }
@@ -34,13 +41,13 @@ class EventController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EventStoreRequest $request)
     {
-        $image = upload($request->image, 'events');
-        //$provider_id =  Auth::user()->provider->id;
-        $event = Event::create( array_merge($request->all(),['provider_id' => $request->provider_id] ) );
-        storeMedia($image , $event->id ,'App\Models\Event');
-        return $this->respondCreated(new EventSmallResource($event));
+            $provider_id = Auth::user()->provider->id;
+            $image = upload($request->image, 'events');
+            $event = Event::create( array_merge($request->all(),['provider_id' => $provider_id] ) );
+            storeMedia($image , $event->id ,'App\Models\Event');
+            return $this->respondCreated(new EventSmallResource($event));
     }
 
     /**
@@ -76,7 +83,7 @@ class EventController extends Controller
     public function show(Event $event)
     {
 
-        return $this->respondCreated(new EventLargeResource($event));
+        return $this->respondWithMessage(new EventLargeResource($event));
 
     }
 

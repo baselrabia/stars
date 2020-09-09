@@ -14,33 +14,6 @@ class AdsController extends Controller
     use ApiResponder;
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $ads = Ads::paginate(10);
-
-        return $this->respondCreated(new AdsResource($ads));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(AdStoreRequest $request)
-    {
-        $image = upload($request->image, 'ads');
-        $ad = Ads::create($request->all());
-        storeMedia($image, $ad->id, 'App\Models\Ads');
-
-        return $this->respondCreated(new AdsResource($ad));
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -48,7 +21,7 @@ class AdsController extends Controller
      */
     public function show(Ads $ad)
     {
-        return $this->respondCreated(new AdsResource($ad));
+        return $this->respondWithMessage(new AdsResource($ad));
 
     }
 

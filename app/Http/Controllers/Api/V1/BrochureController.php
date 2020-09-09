@@ -10,10 +10,16 @@ use App\Http\Resources\BrochureSmallResource;
 use App\Models\Brochure;
 use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BrochureController extends Controller
 {
     use ApiResponder;
+
+    public function __constract()
+    {
+        $this->middleware('auth:api')->only(['store']);
+    }
 
     /**
      * Display a listing of the resource.
@@ -36,8 +42,8 @@ class BrochureController extends Controller
     public function store(BrochureStoreRequest $request)
     {
         $image = upload($request->image, 'brochures');
-        // $provider_id =  Auth::user()->provider->id;
-        $brochure = Brochure::create(array_merge($request->all(), ['provider_id' => $request->provider_id]));
+        $provider_id = Auth::user()->id;
+        $brochure = Brochure::create(array_merge($request->all(), ['provider_id' => $provider_id]));
         storeMedia($image, $brochure->id, 'App\Models\Brochure');
 
         return $this->respondCreated(new BrochureSmallResource($brochure));
@@ -51,7 +57,7 @@ class BrochureController extends Controller
      */
     public function show(Brochure $brochure)
     {
-        return $this->respondCreated(new BrochureLargeResource($brochure));
+        return $this->respondWithMessage(new BrochureLargeResource($brochure));
     }
 
     /**

@@ -36,5 +36,11 @@ class EventStoreRequest extends FormRequest
             'link' => 'required|url',
             'image' => 'image|mimes:jpeg,png,jpg|max:2048',
         ];
+
+
     }
+
+
+
+
 }

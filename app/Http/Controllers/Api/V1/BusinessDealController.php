@@ -16,6 +16,11 @@ class BusinessDealController extends Controller
 {
     use ApiResponder;
 
+    public function __constract()
+    {
+        $this->middleware('auth:api')->only(['store']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -37,8 +42,8 @@ class BusinessDealController extends Controller
     public function store(BusinessDealStoreRequest $request)
     {
         $image = upload($request->image, 'businessDeals');
-        // $provider_id =  Auth::user()->provider->id;
-        $businessDeal = BusinessDeal::create(array_merge($request->all(), ['provider_id' => $request->provider_id]));
+        $provider_id = Auth::user()->provider->id;
+        $businessDeal = BusinessDeal::create(array_merge($request->all(), ['provider_id' => $provider_id]));
         storeMedia($image, $businessDeal->id, 'App\Models\BusinessDeal');
 
         return $this->respondCreated(new BusinessDealSmallResource($businessDeal));
@@ -52,7 +57,7 @@ class BusinessDealController extends Controller
      */
     public function show(BusinessDeal $businessDeal)
     {
-        return $this->respondCreated(new BusinessDealLargeResource($businessDeal));
+        return $this->respondWithMessage(new BusinessDealLargeResource($businessDeal));
 
     }
 

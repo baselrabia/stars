@@ -24,6 +24,8 @@ class AdsResource extends JsonResource
             'id' => $this->id,
             'image' => asset($this->image) ,
             'type' => $this->location,
+            'url' => $this->url,
+
 
         ];
     }
