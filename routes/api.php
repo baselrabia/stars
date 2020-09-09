@@ -18,10 +18,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::resource('events', 'Api\V1\EventController');
-
 Route::post('events/filter', 'Api\V1\EventController@filter');
 
 
 Route::resource('business_deals', 'Api\V1\BusinessDealController');
-
 Route::post('business_deals/filter', 'Api\V1\BusinessDealController@filter');
+
+Route::resource('brochures', 'Api\V1\BrochureController');
+Route::post('brochures/filter', 'Api\V1\BrochureController@filter');

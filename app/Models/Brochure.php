@@ -7,28 +7,29 @@ use Illuminate\Database\Eloquent\Model;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
 
-class Brochure extends Model implements TranslatableContract
+class Brochure extends Model
+// implements TranslatableContract
 {
-    use Translatable;
+    // use Translatable;
 
-    public static function boot() {
-        parent::boot();
-        
-        ## add point to provider when create 
-        self::created(function($brochure) {
-            $type = class_basename($brochure);
-            
-            event(new CreateService($brochure,$type));
-        });
-    }
-    public $translatedAttributes = ['name'];
+    // public static function boot() {
+    //     parent::boot();
+
+    //     ## add point to provider when create
+    //     self::created(function($brochure) {
+    //         $type = class_basename($brochure);
+
+    //         event(new CreateService($brochure,$type));
+    //     });
+    // }
+    // public $translatedAttributes = ['name'];
 
     protected $fillable = [
     	'name', 'attachment','day','priority','provider_id','status'
-    ]; 
+    ];
 
     protected $with =['provider'];
-    
+
     public function scopeActive($query)
     {
         return $query->where('status', 1);
@@ -43,7 +44,7 @@ class Brochure extends Model implements TranslatableContract
     {
         return $query->orderBy('priority');
     }
-   
+
     /**
      * Get the provider that owns the product.
      */

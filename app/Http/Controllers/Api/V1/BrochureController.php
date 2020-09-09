@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\BusinessDealLargeResource;
-use App\Http\Resources\BusinessDealSmallCollection;
-use App\Http\Resources\BusinessDealSmallResource;
-use App\Models\BusinessDeal;
+use App\Http\Resources\BrochureLargeResource;
+use App\Http\Resources\BrochureSmallCollection;
+use App\Http\Resources\BrochureSmallResource;
+use App\Models\Brochure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class BusinessDealController extends Controller
+class BrochureController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,9 +18,9 @@ class BusinessDealController extends Controller
      */
     public function index()
     {
-        $businessDeals = BusinessDeal::active()->priority()->prioritySorted()->paginate(10);
+        $brochures = Brochure::active()->priority()->prioritySorted()->paginate(10);
 
-        return new BusinessDealSmallCollection($businessDeals);
+        return new BrochureSmallCollection($brochures);
     }
 
     /**
@@ -33,8 +32,8 @@ class BusinessDealController extends Controller
     public function store(Request $request)
     {
         // $provider_id =  Auth::user()->provider->id;
-        $businessDeal = BusinessDeal::create(array_merge($request->all(), ['provider_id' => $request->provider_id]));
-        return new BusinessDealSmallResource($businessDeal);
+        $brochure = Brochure::create(array_merge($request->all(), ['provider_id' => $request->provider_id]));
+        return new BrochureSmallResource($brochure);
     }
 
     /**
@@ -43,10 +42,9 @@ class BusinessDealController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(BusinessDeal $businessDeal)
+    public function show(Brochure $brochure)
     {
-        return new BusinessDealLargeResource($businessDeal);
-
+        return new BrochureLargeResource($brochure);
     }
 
     /**
@@ -66,11 +64,10 @@ class BusinessDealController extends Controller
 
         // $provider_id =  Auth::user()->provider->id;
 
-        $events = BusinessDeal::where('provider_id', $input['user_id'])
-        ->where('type', $input['type_business_deal'])
-        ->orderBy("created_at", $input['sort_type'])->paginate(10);
+        $brochures = Brochure::where('provider_id', $input['user_id'])
+            ->orderBy("created_at", $input['sort_type'])->paginate(10);
 
-        return new BusinessDealSmallCollection($events);
+        return new BrochureSmallCollection($brochures);
     }
 
     /**
