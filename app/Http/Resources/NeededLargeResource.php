@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Needed;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class NeededLargeResource extends JsonResource
@@ -14,10 +15,8 @@ class NeededLargeResource extends JsonResource
      */
     public function toArray($request)
     {
-        $image = null;
-        if ($this->medias != null) {
-            $image = asset($this->medias->first()->file);
-        }
+        $related = Needed::where('type', $this->type)->PrioritySorted()->Active()->get();
+
 
         return [
             // id
@@ -25,11 +24,23 @@ class NeededLargeResource extends JsonResource
             // name
             // company name
             // country (name + flag)
+            // summery  array  string
+            // requirements array  string
+            // MContact of  agent
+            // MProvider small
+            // array of related Agents model small
+
             'id' => $this->id,
-            'image' => $image,
-            'name' => $this->name,
+            'image' => $this->image,
+            'name' => $this->person_name,
             'company name ' => $this->provider->company_fullname,
             'country' => $this->location,
+            'summery' => $this->summary,
+            'requirements' => $this->requirements,
+            // MContact of  agent
+            'Provider' => new ProviderTinyResource($this->provider),
+            'related' => new NeededCollection($related)
+
         ];
     }
 }

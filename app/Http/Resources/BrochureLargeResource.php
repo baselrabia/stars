@@ -15,8 +15,8 @@ class BrochureLargeResource extends JsonResource
      */
     public function toArray($request)
     {
-        $relatedBrochures  = Brochure::Active()->PrioritySorted()->get();
-        
+        $related  = Brochure::PrioritySorted()->Active()->get();
+
         $image = null;
         if ($this->medias != null) {
             $image = asset($this->medias->first()->file);
@@ -28,7 +28,7 @@ class BrochureLargeResource extends JsonResource
             'name' => $this->name,
             'download_link ' => $this->download_link,
             'days_remaining' => $this->day,
-            'related_brochures' => new BrochureLargeCollection($relatedBrochures),
+            'related' => new BrochureCollection($related)
 
         ];
     }

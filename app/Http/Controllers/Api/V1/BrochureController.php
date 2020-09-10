@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Brochures\BrochureFilterRequest;
 use App\Http\Requests\Brochures\BrochureStoreRequest;
 use App\Http\Resources\BrochureLargeResource;
-use App\Http\Resources\BrochureLargeCollection;
+use App\Http\Resources\BrochureCollection;
 use App\Models\Brochure;
 use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
@@ -29,7 +30,7 @@ class BrochureController extends Controller
     {
         $brochures = Brochure::active()->priority()->prioritySorted()->paginate(10);
 
-        return $this->respondWithCollection(new BrochureLargeCollection($brochures));
+        return $this->respondWithCollection(new BrochureCollection($brochures));
     }
 
     /**
@@ -41,7 +42,7 @@ class BrochureController extends Controller
     public function store(BrochureStoreRequest $request)
     {
         $image = upload($request->image, 'brochures');
-        $provider_id = Auth::user()->id;
+        $provider_id = Auth::user()->provider->id;
         $brochure = Brochure::create(array_merge($request->all(), ['provider_id' => $provider_id]));
         storeMedia($image, $brochure->id, 'App\Models\Brochure');
 
@@ -65,21 +66,20 @@ class BrochureController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function filter(Request $request)
+    public function filter(BrochureFilterRequest $request)
     {
         $input = $request->all();
-        if ($input['sort_type'] === 'a') {
-            $input['sort_type'] =  'ASC';
+        if ($request->has('sort_type') && $input['sort_type'] === 'a') {
+            $sort_type =  'ASC';
         } else {
-            $input['sort_type'] =  'DESC';
+            $sort_type =  'DESC';
         }
 
-        // $provider_id =  Auth::user()->provider->id;
-
         $brochures = Brochure::where('provider_id', $input['user_id'])
-            ->orderBy("created_at", $input['sort_type'])->paginate(10);
+            ->orderBy("created_at", $sort_type)
+            ->paginate(10);
 
-        return $this->respondWithCollection(new BrochureLargeCollection($brochures));
+        return $this->respondWithCollection(new BrochureCollection($brochures));
     }
 
     /**

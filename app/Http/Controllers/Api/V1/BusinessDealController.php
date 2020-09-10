@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BusinessDeals\BusinessDealFilterRequest;
 use App\Http\Requests\BusinessDeals\BusinessDealStoreRequest;
 use App\Http\Resources\BusinessDealLargeResource;
-use App\Http\Resources\BusinessDealTinyCollection;
+use App\Http\Resources\BusinessDealCollection;
 use App\Http\Resources\BusinessDealTinyResource;
 use App\Models\BusinessDeal;
 use App\Traits\ApiResponder;
@@ -30,7 +31,7 @@ class BusinessDealController extends Controller
     {
         $businessDeals = BusinessDeal::active()->priority()->prioritySorted()->paginate(10);
 
-        return $this->respondWithCollection(new BusinessDealTinyCollection($businessDeals));
+        return $this->respondWithCollection(new BusinessDealCollection($businessDeals));
     }
 
     /**
@@ -66,22 +67,21 @@ class BusinessDealController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function filter(Request $request)
+    public function filter(BusinessDealFilterRequest $request)
     {
         $input = $request->all();
-        if ($input['sort_type'] === 'a') {
-            $input['sort_type'] =  'ASC';
+        if ($request->has('sort_type') && $input['sort_type'] === 'a') {
+            $sort_type =  'ASC';
         } else {
-            $input['sort_type'] =  'DESC';
+            $sort_type =  'DESC';
         }
 
-        // $provider_id =  Auth::user()->provider->id;
-
         $events = BusinessDeal::where('provider_id', $input['user_id'])
-            ->where('type', $input['type_business_deal'])
-            ->orderBy("created_at", $input['sort_type'])->paginate(10);
+            ->where('type', $input['type'])
+            ->orderBy("created_at", $sort_type)
+            ->paginate(10);
 
-        return $this->respondWithCollection(new BusinessDealTinyCollection($events));
+        return $this->respondWithCollection(new BusinessDealCollection($events));
     }
 
     /**

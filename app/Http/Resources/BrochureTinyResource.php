@@ -3,9 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\BusinessDeal;
 
-class BusinessDealLargeResource extends JsonResource
+class BrochureTinyResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,19 +14,22 @@ class BusinessDealLargeResource extends JsonResource
      */
     public function toArray($request)
     {
-        $relatedBusinessDeals  = BusinessDeal::where('type', $this->type)->paginate(10);
         $image = null;
         if ($this->medias != null) {
             $image = asset($this->medias->first()->file);
         }
-        return [
-            'id' => $this->id,
-            'image' =>  $image,
-            'name' => $this->name,
-            'price' => $this->price,                 //formate19/11/2019    in ui page 29
-            'type' => $this->type,
-            'related_business_deals' => new BusinessDealCollection($relatedBusinessDeals),
 
+        return [
+            // id
+            // image
+            // name
+            // download link            //link will download by google chrome app
+            // days remaining
+            'id' => $this->id,
+            'image' => $image,
+            'name' => $this->name,
+            'download_link ' => $this->download_link,
+            'days_remaining' => $this->day,
         ];
     }
 }

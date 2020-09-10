@@ -4,9 +4,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class AgentLargeCollection extends ResourceCollection
+class ProviderCollection extends ResourceCollection
 {
-    public $collects = NeededLargeResource::class;
+    public $collects = ProviderTinyResource::class;
     /**
      * Transform the resource collection into an array.
      *

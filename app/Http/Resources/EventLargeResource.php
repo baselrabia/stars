@@ -36,7 +36,7 @@ class EventLargeResource extends JsonResource
             'Model_Video' => $this->video,
             'registration_link' => $this->link,
             'share_link_url' => $this->link,
-            'related_events' => new EventTinyCollection($relatedEvents),
+            'related_events' => new EventCollection($relatedEvents),
         ];
     }
 }

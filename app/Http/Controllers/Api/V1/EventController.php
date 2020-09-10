@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Events\EventFilterRequest;
 use App\Http\Requests\Events\EventStoreRequest;
 use App\Http\Resources\EventLargeResource;
-use App\Http\Resources\EventTinyCollection;
+use App\Http\Resources\EventCollection;
 use App\Http\Resources\EventTinyResource;
 use App\Models\Event;
 use App\Traits\ApiResponder;
@@ -31,7 +32,7 @@ class EventController extends Controller
     {
         $events = Event::active()->prioritySorted()->paginate(3);
 
-        return $this->respondWithCollection(new EventTinyCollection($events));
+        return $this->respondWithCollection(new EventCollection($events));
     }
 
 
@@ -56,22 +57,21 @@ class EventController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function filter(Request $request)
+    public function filter(EventFilterRequest $request)
     {
         $input = $request->all();
-        if ($input['sort_type'] === 'a') {
-            $input['sort_type'] =  'ASC';
+        if ($request->has('sort_type') && $input['sort_type'] === 'a') {
+            $sort_type =  'ASC';
         } else {
-            $input['sort_type'] =  'DESC';
+            $sort_type =  'DESC';
         }
 
-        // $provider_id =  Auth::user()->provider->id;
-
         $events = Event::where('provider_id', $input['user_id'])
-            ->where('type', $input['event_type'])
-            ->orderBy("created_at", $input['sort_type'])->paginate(3);
+            ->where('type', $input['type'])
+            ->orderBy("created_at", $sort_type)
+            ->paginate(10);
 
-        return $this->respondWithCollection(new EventTinyCollection($events));
+        return $this->respondWithCollection(new EventCollection($events));
     }
 
     /**

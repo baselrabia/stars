@@ -3,28 +3,31 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Neededs\NeededFilterRequest;
+use App\Http\Requests\Neededs\NeededStoreRequest;
+use App\Http\Resources\NeededCollection;
+use App\Http\Resources\NeededLargeResource;
+use App\Models\Needed;
+use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NeededController extends Controller
 {
+    use ApiResponder;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $neededs = Needed::where('type', $request->type)->active()->prioritySorted()->paginate(10);
+        if ($neededs->all() != null) {
+            return $this->respondWithCollection(new NeededCollection($neededs));
+        } else {
+            return $this->errorNotFound();
+        }
     }
 
     /**
@@ -33,9 +36,16 @@ class NeededController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NeededStoreRequest $request)
     {
-        //
+        $image = upload($request->image, 'neededs');
+
+        $provider_id = Auth::user()->provider->id;
+        $needed = Needed::create(array_merge($request->all(), ['provider_id' => $provider_id, 'image' => $image]));
+
+        storeMedia($image, $needed->id, 'App\Models\Needed');
+
+        return $this->respondCreated(new NeededLargeResource($needed));
     }
 
     /**
@@ -44,21 +54,34 @@ class NeededController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Needed $needed)
     {
-        //
+        return $this->respondWithMessage(new NeededLargeResource($needed));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Filter a newly created resource in storage.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function filter(NeededFilterRequest $request)
     {
-        //
+        $input = $request->all();
+        if ($request->has('sort_type') && $input['sort_type'] === 'a') {
+            $sort_type =  'ASC';
+        } else {
+            $sort_type =  'DESC';
+        }
+
+        $neededs = Needed::where('provider_id', $input['user_id'])
+            ->where('type', $input['type'])
+            ->orderBy("created_at", $sort_type)
+            ->paginate(10);
+
+        return $this->respondWithCollection(new NeededCollection($neededs));
     }
+
 
     /**
      * Update the specified resource in storage.

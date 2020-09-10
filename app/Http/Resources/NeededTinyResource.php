@@ -14,10 +14,6 @@ class NeededTinyResource extends JsonResource
      */
     public function toArray($request)
     {
-        $image = null;
-        if ($this->medias->first()->file != null) {
-            $image = asset($this->medias->first()->file);
-        }
 
         return [
             // id
@@ -26,8 +22,8 @@ class NeededTinyResource extends JsonResource
             // company name
             // country (name + flag)
             'id' => $this->id,
-            'image' => $image,
-            'name' => $this->name,
+            'image'  => $this->image,
+            'name' => $this->person_name,
             'company name ' => $this->provider->company_fullname,
             'country' => $this->location,
         ];

@@ -27,15 +27,23 @@ Route::group(['prefix' => 'auth'], function () {
     });
 });
 
-Route::resource('events', 'Api\V1\EventController');
-Route::post('events/filter', 'Api\V1\EventController@filter');
+Route::group(['namespace' => 'Api\V1'], function () {
+
+    Route::resource('events', 'EventController');
+    Route::post('events/filter', 'EventController@filter');
 
 
-Route::resource('business_deals', 'Api\V1\BusinessDealController');
-Route::post('business_deals/filter', 'Api\V1\BusinessDealController@filter');
+    Route::resource('business_deals', 'BusinessDealController');
+    Route::post('business_deals/filter', 'BusinessDealController@filter');
 
-Route::resource('brochures', 'Api\V1\BrochureController');
-Route::post('brochures/filter', 'Api\V1\BrochureController@filter');
+    Route::resource('brochures', 'BrochureController');
+    Route::post('brochures/filter', 'BrochureController@filter');
 
-Route::resource('ads', 'Api\V1\AdsController');
+    Route::resource('ads', 'AdsController');
+
+    Route::resource('neededs', 'NeededController');
+    Route::post('neededs/filter', 'NeededController@filter');
+
+});
+
 
