@@ -24,7 +24,7 @@ class BrochureFilterRequest extends APIRequest
     public function rules()
     {
         return [
-            'user_id' => 'required|exists:providers',
+            'user_id' => 'exists:providers',
         ];
     }
 }

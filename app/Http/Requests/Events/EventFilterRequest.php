@@ -24,8 +24,8 @@ class EventFilterRequest extends APIRequest
     public function rules()
     {
         return [
-            'type' =>'required|in:exhibition,conference,workshop',
-            'user_id' => 'required|exists:providers',
+            'type' =>'in:exhibition,conference,workshop',
+            'user_id' => 'exists:providers',
         ];
     }
 }

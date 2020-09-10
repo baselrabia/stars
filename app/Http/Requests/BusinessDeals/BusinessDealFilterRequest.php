@@ -24,8 +24,8 @@ class BusinessDealFilterRequest extends APIRequest
     public function rules()
     {
         return [
-            'type' =>'required|in:tender,auction,project',
-            'user_id' => 'required|exists:providers',
+            'type' =>'in:tender,auction,project',
+            'user_id' => 'exists:providers',
         ];
     }
 }

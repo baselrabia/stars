@@ -7,6 +7,7 @@ use App\Http\Requests\Neededs\NeededFilterRequest;
 use App\Http\Requests\Neededs\NeededStoreRequest;
 use App\Http\Resources\NeededCollection;
 use App\Http\Resources\NeededLargeResource;
+use App\Http\Resources\NeededTinyResource;
 use App\Models\Needed;
 use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
@@ -45,7 +46,7 @@ class NeededController extends Controller
 
         storeMedia($image, $needed->id, 'App\Models\Needed');
 
-        return $this->respondCreated(new NeededLargeResource($needed));
+        return $this->respondCreated(new NeededTinyResource($needed));
     }
 
     /**
@@ -74,12 +75,19 @@ class NeededController extends Controller
             $sort_type =  'DESC';
         }
 
-        $neededs = Needed::where('provider_id', $input['user_id'])
-            ->where('type', $input['type'])
-            ->orderBy("created_at", $sort_type)
-            ->paginate(10);
+        $neededs = Needed::active();
+        if ($request->has('user_id')){
+            $neededs->where('provider_id', $input['user_id']);
+        }
+        if ($request->has('type')) {
+            $neededs->where('type', $input['type']);
+        }
 
-        return $this->respondWithCollection(new NeededCollection($neededs));
+
+        return  new NeededCollection(
+            $neededs->orderBy("created_at", $sort_type)
+            ->paginate(10)
+        );
     }
 
 

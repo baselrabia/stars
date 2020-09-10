@@ -16,7 +16,9 @@ class BusinessDealCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'data' => $this->collection
+            'http_code' => 200,
+            'data' => $this->collection,
+            'message' => __('successful')
         ];
     }
 }

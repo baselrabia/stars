@@ -60,18 +60,23 @@ class EventController extends Controller
     public function filter(EventFilterRequest $request)
     {
         $input = $request->all();
+        $sort_type =  'DESC';
         if ($request->has('sort_type') && $input['sort_type'] === 'a') {
             $sort_type =  'ASC';
-        } else {
-            $sort_type =  'DESC';
+        }
+    
+        $events = Event::active();
+        if ($request->has('user_id')) {
+            $events->where('provider_id', $input['user_id']);
+        }
+        if ($request->has('type')) {
+            $events->where('type', $input['type']);
         }
 
-        $events = Event::where('provider_id', $input['user_id'])
-            ->where('type', $input['type'])
-            ->orderBy("created_at", $sort_type)
-            ->paginate(10);
-
-        return $this->respondWithCollection(new EventCollection($events));
+        return  new EventCollection(
+            $events->orderBy("created_at", $sort_type)
+                ->paginate(10)
+        );
     }
 
     /**

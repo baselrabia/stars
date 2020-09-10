@@ -70,18 +70,22 @@ class BusinessDealController extends Controller
     public function filter(BusinessDealFilterRequest $request)
     {
         $input = $request->all();
+        $sort_type =  'DESC';
         if ($request->has('sort_type') && $input['sort_type'] === 'a') {
             $sort_type =  'ASC';
-        } else {
-            $sort_type =  'DESC';
         }
 
-        $events = BusinessDeal::where('provider_id', $input['user_id'])
-            ->where('type', $input['type'])
-            ->orderBy("created_at", $sort_type)
-            ->paginate(10);
+        $businessDeals = BusinessDeal::active();
+        if ($request->has('user_id')){
+            $businessDeals->where('provider_id', $input['user_id']);
+        }
+        if ($request->has('type')){
+             $businessDeals->where('type', $input['type']);
+            }
 
-        return $this->respondWithCollection(new BusinessDealCollection($events));
+        return  new BusinessDealCollection(
+            $businessDeals->orderBy("created_at", $sort_type)->paginate(10)
+        );
     }
 
     /**

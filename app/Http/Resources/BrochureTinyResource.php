@@ -26,10 +26,10 @@ class BrochureTinyResource extends JsonResource
             // download link            //link will download by google chrome app
             // days remaining
             'id' => $this->id,
-            'image' => $image,
             'name' => $this->name,
-            'download_link ' => $this->download_link,
+            'attachment' => $this->attachment,
             'days_remaining' => $this->day,
+            'created_at' => $this->created_at,
         ];
     }
 }

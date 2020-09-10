@@ -25,8 +25,8 @@ class NeededFilterRequest extends APIRequest
     public function rules()
     {
         return [
-            'type' => 'required|in:distributers,brokers,agents',
-            'user_id' => 'required|exists:providers',
+            'type' => 'in:distributers,brokers,agents',
+            'user_id' => 'exists:providers',
         ];
     }
 }
