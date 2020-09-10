@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Ads;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\APIRequest;
 
-class AdStoreRequest extends FormRequest
+class AdStoreRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.

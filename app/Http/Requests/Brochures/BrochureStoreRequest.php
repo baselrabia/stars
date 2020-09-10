@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Brochures;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\APIRequest;
 
-class BrochureStoreRequest extends FormRequest
+class BrochureStoreRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.

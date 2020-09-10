@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\BusinessDeals;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\APIRequest;
 
-class BusinessDealStoreRequest extends FormRequest
+class BusinessDealStoreRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.

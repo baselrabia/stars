@@ -15,11 +15,10 @@ class EventLargeResource extends JsonResource
      */
     public function toArray($request)
     {
-        $relatedEvents = Event::where('type',$this->type)->paginate(3);
-
+        $relatedEvents = Event::where('type',$this->type)->orderBy("created_at")->active()->get();
+        
         return [
             // new EventSmallResource($this),
-
             'id' => $this->id,
             'event_type' => $this->type,        //see sheet "Constant"
             'image' => asset($this->medias->first()->file),

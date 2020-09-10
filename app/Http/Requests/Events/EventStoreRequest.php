@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Events;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\APIRequest;
 
-class EventStoreRequest extends FormRequest
+class EventStoreRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -39,8 +39,6 @@ class EventStoreRequest extends FormRequest
 
 
     }
-
-
 
 
 }
