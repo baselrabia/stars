@@ -52,6 +52,14 @@ class Handler extends ExceptionHandler
                 'message' => $exception->getMessage(),
             ], 401);
         }
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                "http_code" => 404 ,
+                "message" => $exception->getMessage()],404);
+        }
+
         return parent::render($request, $exception);
     }
+
 }

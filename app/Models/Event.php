@@ -11,17 +11,17 @@ class Event extends Model
 {
     //use Translatable;
 
-    // public static function boot() {
-    //     parent::boot();
 
-    //     ## add point to provider when create
-    //     self::created(function($event) {
-    //         $type = class_basename($event);
+    public static function boot() {
+        parent::boot();
+        ## add point to provider when create
+        // self::created(function($event) {
+        //     $type = class_basename($event);
 
-    //         event(new CreateService($event,$type));
-    //     });
+        //     event(new CreateService($event,$type));
+        // });
 
-    // }
+    }
     //public $translatedAttributes = ['name','description'];
 
     protected $fillable = [

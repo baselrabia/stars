@@ -14,10 +14,15 @@ class EventSmallResource extends JsonResource
      */
     public function toArray($request)
     {
+        $image= null;
+        if ($this->medias->first()->file != null){
+            $image = asset($this->medias->first()->file);
+        }
+
         return [
             'id' => $this->id,
             'event_type' => $this->type ,        //see sheet "Constant"
-            'image' => asset($this->medias->first()->file),
+            'image' => $image,
             'name' => $this->name ,
             'date_start' => $this->start_date ,                 //formate19/11/2019    in ui page 29
             'date_end' => $this->end_date ,
