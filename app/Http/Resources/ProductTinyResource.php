@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductSmallResource extends JsonResource
+class ProductTinyResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -33,19 +33,19 @@ class ProductSmallResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'category_id' => $this->id,
-            'price_per_item'=> $this->price_per_item,
-            'price_lot_from'=> $this->price_lot_from,
-            'price_lot_to'=> $this->price_lot_to,
-            'minimum_order'=> $this->minimum_order,
-            'unit'=> $this->unit,
-            'attachment'=> $this->attachment,
-            'video'=> $this->video,
-            'type'=> $this->type,
-            'available'=> $this->available,
-            'provider_id'=> $this->provider_id,
-            'priority'=> $this->priority,
-            'location'=> $this->location,
-            'status'=> $this->status,
+            'price_per_item' => $this->price_per_item,
+            'price_lot_from' => $this->price_lot_from,
+            'price_lot_to' => $this->price_lot_to,
+            'minimum_order' => $this->minimum_order,
+            'unit' => $this->unit,
+            'attachment' => $this->attachment,
+            'video' => $this->video,
+            'type' => $this->type,
+            'available' => $this->available,
+            'provider_id' => $this->provider_id,
+            'priority' => $this->priority,
+            'location' => $this->location,
+            'status' => $this->status,
         ];
     }
 }

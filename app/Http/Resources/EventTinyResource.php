@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class EventSmallResource extends JsonResource
+class EventTinyResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,20 +14,20 @@ class EventSmallResource extends JsonResource
      */
     public function toArray($request)
     {
-        $image= null;
-        if ($this->medias->first()->file != null){
+        $image = null;
+        if ($this->medias->first()->file != null) {
             $image = asset($this->medias->first()->file);
         }
 
         return [
             'id' => $this->id,
-            'event_type' => $this->type ,        //see sheet "Constant"
+            'event_type' => $this->type,        //see sheet "Constant"
             'image' => $image,
-            'name' => $this->name ,
-            'date_start' => $this->start_date ,                 //formate19/11/2019    in ui page 29
-            'date_end' => $this->end_date ,
+            'name' => $this->name,
+            'date_start' => $this->start_date,                 //formate19/11/2019    in ui page 29
+            'date_end' => $this->end_date,
             // 'location_name' => $this-> ,    //example: National Institute of building sciences المعهد الوطني لعلوم البناء
-            'lat' => $this->lat ,
+            'lat' => $this->lat,
             'lng' => $this->lng,
         ];
     }

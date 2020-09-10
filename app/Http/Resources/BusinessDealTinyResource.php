@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BrochureSmallResource extends JsonResource
+class BusinessDealTinyResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,17 +14,23 @@ class BrochureSmallResource extends JsonResource
      */
     public function toArray($request)
     {
+        $type = ['tender', 'auction', 'project'];
         return [
+
             // id
             // image
             // name
-            // download link            //link will download by google chrome app
-            // days remaining
+            // price per ton (with currency ex: 48$ )
+            // type id of business deals //see "Sheet/constant"
+
             'id' => $this->id,
             'image' => asset($this->medias->first()->file),
             'name' => $this->name,
-            'download_link ' => $this->download_link,
-            'days_remaining' => $this->day,
+            'price' => $this->price,                 //formate19/11/2019    in ui page 29
+            'type' => $this->type,
+
+            // 'image' => $this->medias->file,
+
         ];
     }
 }

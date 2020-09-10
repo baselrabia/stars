@@ -2,10 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Brochure;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BrochureLargeResource extends JsonResource
+class NeededLargeResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,21 +14,22 @@ class BrochureLargeResource extends JsonResource
      */
     public function toArray($request)
     {
-        $relatedBrochures  = Brochure::Active()->PrioritySorted()->get();
-        
         $image = null;
         if ($this->medias != null) {
             $image = asset($this->medias->first()->file);
         }
 
         return [
+            // id
+            // image
+            // name
+            // company name
+            // country (name + flag)
             'id' => $this->id,
             'image' => $image,
             'name' => $this->name,
-            'download_link ' => $this->download_link,
-            'days_remaining' => $this->day,
-            'related_brochures' => new BrochureLargeCollection($relatedBrochures),
-
+            'company name ' => $this->provider->company_fullname,
+            'country' => $this->location,
         ];
     }
 }

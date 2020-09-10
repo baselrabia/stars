@@ -16,14 +16,17 @@ class BusinessDealLargeResource extends JsonResource
     public function toArray($request)
     {
         $relatedBusinessDeals  = BusinessDeal::where('type', $this->type)->paginate(10);
-
+        $image = null;
+        if ($this->medias != null) {
+            $image = asset($this->medias->first()->file);
+        }
         return [
             'id' => $this->id,
-            'image' => asset($this->medias->first()->file),
+            'image' =>  $image,
             'name' => $this->name,
             'price' => $this->price,                 //formate19/11/2019    in ui page 29
             'type' => $this->type,
-            'related_business_deals' => new BusinessDealSmallCollection($relatedBusinessDeals),
+            'related_business_deals' => new BusinessDealTinyCollection($relatedBusinessDeals),
 
         ];
     }

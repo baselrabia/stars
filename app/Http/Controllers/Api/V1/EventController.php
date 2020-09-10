@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Events\EventStoreRequest;
 use App\Http\Resources\EventLargeResource;
-use App\Http\Resources\EventSmallCollection;
-use App\Http\Resources\EventSmallResource;
+use App\Http\Resources\EventTinyCollection;
+use App\Http\Resources\EventTinyResource;
 use App\Models\Event;
 use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
@@ -31,7 +31,7 @@ class EventController extends Controller
     {
         $events = Event::active()->prioritySorted()->paginate(3);
 
-        return $this->respondWithCollection(new EventSmallCollection($events));
+        return $this->respondWithCollection(new EventTinyCollection($events));
     }
 
 
@@ -43,11 +43,11 @@ class EventController extends Controller
      */
     public function store(EventStoreRequest $request)
     {
-            $provider_id = Auth::user()->provider->id;
-            $image = upload($request->image, 'events');
-            $event = Event::create( array_merge($request->all(),['provider_id' => $provider_id] ) );
-            storeMedia($image , $event->id ,'App\Models\Event');
-            return $this->respondCreated(new EventSmallResource($event));
+        $provider_id = Auth::user()->provider->id;
+        $image = upload($request->image, 'events');
+        $event = Event::create(array_merge($request->all(), ['provider_id' => $provider_id]));
+        storeMedia($image, $event->id, 'App\Models\Event');
+        return $this->respondCreated(new EventTinyResource($event));
     }
 
     /**
@@ -59,19 +59,19 @@ class EventController extends Controller
     public function filter(Request $request)
     {
         $input = $request->all();
-        if($input['sort_type'] === 'a'){
-            $input['sort_type']=  'ASC';
-        }else{
+        if ($input['sort_type'] === 'a') {
+            $input['sort_type'] =  'ASC';
+        } else {
             $input['sort_type'] =  'DESC';
         }
 
         // $provider_id =  Auth::user()->provider->id;
 
-        $events = Event::where('provider_id', $input['user_id'] )
-                        ->where('type', $input['event_type'] )
-                        ->orderBy("created_at", $input['sort_type'])->paginate(3);
+        $events = Event::where('provider_id', $input['user_id'])
+            ->where('type', $input['event_type'])
+            ->orderBy("created_at", $input['sort_type'])->paginate(3);
 
-        return $this->respondWithCollection(new EventSmallCollection($events));
+        return $this->respondWithCollection(new EventTinyCollection($events));
     }
 
     /**
@@ -84,7 +84,6 @@ class EventController extends Controller
     {
 
         return $this->respondWithMessage(new EventLargeResource($event));
-
     }
 
 

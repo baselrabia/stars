@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BusinessDeals\BusinessDealStoreRequest;
 use App\Http\Resources\BusinessDealLargeResource;
-use App\Http\Resources\BusinessDealSmallCollection;
-use App\Http\Resources\BusinessDealSmallResource;
+use App\Http\Resources\BusinessDealTinyCollection;
+use App\Http\Resources\BusinessDealTinyResource;
 use App\Models\BusinessDeal;
 use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
@@ -30,7 +30,7 @@ class BusinessDealController extends Controller
     {
         $businessDeals = BusinessDeal::active()->priority()->prioritySorted()->paginate(10);
 
-        return $this->respondWithCollection(new BusinessDealSmallCollection($businessDeals));
+        return $this->respondWithCollection(new BusinessDealTinyCollection($businessDeals));
     }
 
     /**
@@ -46,7 +46,7 @@ class BusinessDealController extends Controller
         $businessDeal = BusinessDeal::create(array_merge($request->all(), ['provider_id' => $provider_id]));
         storeMedia($image, $businessDeal->id, 'App\Models\BusinessDeal');
 
-        return $this->respondCreated(new BusinessDealSmallResource($businessDeal));
+        return $this->respondCreated(new BusinessDealTinyResource($businessDeal));
     }
 
     /**
@@ -58,7 +58,6 @@ class BusinessDealController extends Controller
     public function show(BusinessDeal $businessDeal)
     {
         return $this->respondWithMessage(new BusinessDealLargeResource($businessDeal));
-
     }
 
     /**
@@ -79,10 +78,10 @@ class BusinessDealController extends Controller
         // $provider_id =  Auth::user()->provider->id;
 
         $events = BusinessDeal::where('provider_id', $input['user_id'])
-        ->where('type', $input['type_business_deal'])
-        ->orderBy("created_at", $input['sort_type'])->paginate(10);
+            ->where('type', $input['type_business_deal'])
+            ->orderBy("created_at", $input['sort_type'])->paginate(10);
 
-        return $this->respondWithCollection(new BusinessDealSmallCollection($events));
+        return $this->respondWithCollection(new BusinessDealTinyCollection($events));
     }
 
     /**

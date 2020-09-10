@@ -4,9 +4,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class BusinessDealSmallCollection extends ResourceCollection
+class BusinessDealTinyCollection extends ResourceCollection
 {
-    public $collects = BusinessDealSmallResource::class;
+    public $collects = BusinessDealTinyResource::class;
     /**
      * Transform the resource collection into an array.
      *

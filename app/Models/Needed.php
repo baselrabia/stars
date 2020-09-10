@@ -6,15 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
 
-class Needed extends Model implements TranslatableContract
+class Needed extends Model
+// implements TranslatableContract
 {
-    use Translatable;
-   
-    public $translatedAttributes = ['summary','requirements'];
+    // use Translatable;
+
+    // public $translatedAttributes = ['summary','requirements'];
 
     protected $fillable = [
     	'priority','person_name','type','image', 'status','summary','requirements','provider_id','phone','email','landline','location','link'
-    ]; 
+    ];
     public function scopeActive($query)
     {
         return $query->where('status', 1);
