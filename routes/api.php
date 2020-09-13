@@ -44,6 +44,9 @@ Route::group(['namespace' => 'Api\V1'], function () {
     Route::resource('neededs', 'NeededController');
     Route::post('neededs/filter', 'NeededController@filter');
 
+    Route::get('products/compare', 'ProductController@compare');
+
+
 });
 
 

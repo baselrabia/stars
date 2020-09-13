@@ -45,7 +45,8 @@ class Product extends Model
     ];
 
     protected $with = [
-        'translations','provider','medias','category'
+        // 'translations',
+        'provider','medias','category'
     ];
 
     public function scopeActive($query)
