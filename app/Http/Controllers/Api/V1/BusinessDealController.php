@@ -9,13 +9,11 @@ use App\Http\Resources\BusinessDealLargeResource;
 use App\Http\Resources\BusinessDealCollection;
 use App\Http\Resources\BusinessDealTinyResource;
 use App\Models\BusinessDeal;
-use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class BusinessDealController extends Controller
 {
-    use ApiResponder;
 
     public function __constract()
     {

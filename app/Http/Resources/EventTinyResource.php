@@ -15,7 +15,7 @@ class EventTinyResource extends JsonResource
     public function toArray($request)
     {
         $image = null;
-        if ($this->medias->first()->file != null) {
+        if ($this->medias != null) {
             $image = asset($this->medias->first()->file);
         }
 

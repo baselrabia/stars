@@ -9,14 +9,11 @@ use App\Http\Resources\EventLargeResource;
 use App\Http\Resources\EventCollection;
 use App\Http\Resources\EventTinyResource;
 use App\Models\Event;
-use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
-    use ApiResponder;
-
     public function __constract()
     {
         // $this->middleware('auth:api')->only('store');
@@ -64,7 +61,7 @@ class EventController extends Controller
         if ($request->has('sort_type') && $input['sort_type'] === 'a') {
             $sort_type =  'ASC';
         }
-    
+
         $events = Event::active();
         if ($request->has('user_id')) {
             $events->where('provider_id', $input['user_id']);

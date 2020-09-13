@@ -8,13 +8,11 @@ use App\Http\Requests\Brochures\BrochureStoreRequest;
 use App\Http\Resources\BrochureLargeResource;
 use App\Http\Resources\BrochureCollection;
 use App\Models\Brochure;
-use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class BrochureController extends Controller
 {
-    use ApiResponder;
 
     public function __constract()
     {

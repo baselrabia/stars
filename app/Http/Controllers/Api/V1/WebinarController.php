@@ -3,32 +3,13 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CompareProductCollection;
-use App\Http\Resources\CompareProductResource;
-use App\Http\Resources\ProductCollection;
-use App\Models\Product;
+use App\Http\Resources\WebinarLargeResource;
+use App\Models\Webinar;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class WebinarController extends Controller
 {
-
-    public function compare(Request $request)
-    {
-        if(!$request->has('product')) return $this->errorNotFound();
-
-        $productArray = $request->all()['product'];
-        foreach ($productArray as $id) {
-            $product = Product::where('id', $id)->first();
-            if (!$product) {
-                return $this->errorNotFound();
-            }
-            $products[] = $product;
-        }
-
-        return new CompareProductCollection($products);
-    }
-
-
+    
     /**
      * Display a listing of the resource.
      *
@@ -39,15 +20,6 @@ class ProductController extends Controller
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -66,21 +38,12 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Webinar $webinar)
     {
-        //
+        return $this->respondWithMessage(new WebinarLargeResource($webinar));
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.

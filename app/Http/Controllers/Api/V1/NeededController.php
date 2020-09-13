@@ -9,13 +9,11 @@ use App\Http\Resources\NeededCollection;
 use App\Http\Resources\NeededLargeResource;
 use App\Http\Resources\NeededTinyResource;
 use App\Models\Needed;
-use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class NeededController extends Controller
 {
-    use ApiResponder;
     /**
      * Display a listing of the resource.
      *

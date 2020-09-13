@@ -6,12 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Ads\AdStoreRequest;
 use App\Http\Resources\AdsResource;
 use App\Models\Ads;
-use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
 
 class AdsController extends Controller
 {
-    use ApiResponder;
 
     /**
      * Display the specified resource.
