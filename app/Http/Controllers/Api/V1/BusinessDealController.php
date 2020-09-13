@@ -56,7 +56,7 @@ class BusinessDealController extends Controller
      */
     public function show(BusinessDeal $businessDeal)
     {
-        return $this->respondWithMessage(new BusinessDealLargeResource($businessDeal));
+        return $this->respondWithItem(new BusinessDealLargeResource($businessDeal));
     }
 
     /**

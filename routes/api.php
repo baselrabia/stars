@@ -47,7 +47,8 @@ Route::group(['namespace' => 'Api\V1'], function () {
     Route::get('products/compare', 'ProductController@compare');
 
     Route::resource('webinars', 'WebinarController');
-    
+    Route::post('webinars/filter', 'WebinarController@filter');
+
 
 });
 

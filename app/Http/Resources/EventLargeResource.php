@@ -15,7 +15,7 @@ class EventLargeResource extends JsonResource
      */
     public function toArray($request)
     {
-        $relatedEvents = Event::where('type', $this->type)->orderBy("created_at")->active()->get();
+        $relatedEvents = Event::where('type', $this->type)->where('id', '!=', $this->id)->orderBy("created_at")->active()->get();
         $image = null;
         if ($this->medias != null) {
             $image = asset($this->medias->first()->file);

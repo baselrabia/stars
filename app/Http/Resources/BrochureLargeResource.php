@@ -15,7 +15,7 @@ class BrochureLargeResource extends JsonResource
      */
     public function toArray($request)
     {
-        $related  = Brochure::PrioritySorted()->Active()->get();
+        $related  = Brochure::where('id', '!=', $this->id)->PrioritySorted()->Active()->get();
 
         $image = null;
         if ($this->medias != null) {

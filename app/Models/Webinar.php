@@ -23,14 +23,14 @@ class Webinar extends Model
         });
     }
 
-    public $translatedAttributes = ['name','description','summary'];
+    // public $translatedAttributes = ['name','description','summary'];
 
     protected $fillable = [
         'name','description','summary','host','type','provider_id','link','date',
         'time','country','logo'
     ];
 
-    protected $with =['categories','provider','countryName','providers'];
+    // protected $with =['categories','provider','countryName','providers'];
 
     /**
      * Get the categories that this webinars belongs to.

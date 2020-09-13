@@ -21,12 +21,15 @@ class NeededController extends Controller
      */
     public function index(Request $request)
     {
-        $neededs = Needed::where('type', $request->type)->active()->prioritySorted()->paginate(10);
-        if ($neededs->all() != null) {
-            return $this->respondWithCollection(new NeededCollection($neededs));
-        } else {
+        $types = ['distributers', 'brokers', 'agents'];
+
+        if (!in_array($request->type, $types) ){
             return $this->errorNotFound();
         }
+
+        $neededs = Needed::where('type', $request->type)->active()->prioritySorted()->paginate(10);
+
+        return new NeededCollection($neededs);
     }
 
     /**
@@ -42,8 +45,6 @@ class NeededController extends Controller
         $provider_id = Auth::user()->provider->id;
         $needed = Needed::create(array_merge($request->all(), ['provider_id' => $provider_id, 'image' => $image]));
 
-        storeMedia($image, $needed->id, 'App\Models\Needed');
-
         return $this->respondCreated(new NeededTinyResource($needed));
     }
 
@@ -55,7 +56,7 @@ class NeededController extends Controller
      */
     public function show(Needed $needed)
     {
-        return $this->respondWithMessage(new NeededLargeResource($needed));
+        return $this->respondWithItem(new NeededLargeResource($needed));
     }
 
     /**

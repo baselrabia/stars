@@ -15,19 +15,12 @@ class WebinarLargeResource extends JsonResource
      */
     public function toArray($request)
     {
-        $image = null;
-        if ($this->medias != null) {
-            $image = asset($this->medias->first()->file);
-        }
-
- $country = DB::table('countries')->where('id', $this->country)->first();
-
         return [
             'id' => $this->id,
+            'name' => $this->name,
             'type' => $this->type,
             'is public' => $this->type == "public" ? true : false,
-            'image' => $image,
-            'name' => $this->name,
+            'image' => asset($this->logo),
             'time' => $this->time,
             'start_date' => $this->date,
             // 'end_date' => $this->end_date,
@@ -49,7 +42,7 @@ class WebinarLargeResource extends JsonResource
             'link_of_host' => $this->link,
             'summary' => $this->summary,
             'description' => $this->description,
-            'country' =>  $country->name,
+            'country' =>  $this->countryName,
             'providers' => $this->providers->map->only(['id', 'company_fullname', 'logo']),
             'categories' => $this->categories->map->only(['id', 'name']),
 

@@ -15,7 +15,7 @@ class NeededLargeResource extends JsonResource
      */
     public function toArray($request)
     {
-        $related = Needed::where('type', $this->type)->PrioritySorted()->Active()->get();
+        $related = Needed::where('type', $this->type)->where('id', '!=', $this->id)->PrioritySorted()->Active()->get();
 
 
         return [

@@ -34,7 +34,7 @@ class EventStoreRequest extends APIRequest
             'lng' => ['required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
            // 'Video' => 'required|url',
             'link' => 'required|url',
-            'image' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ];
 
 

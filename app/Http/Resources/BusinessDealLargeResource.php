@@ -15,7 +15,7 @@ class BusinessDealLargeResource extends JsonResource
      */
     public function toArray($request)
     {
-        $relatedBusinessDeals  = BusinessDeal::where('type', $this->type)->paginate(10);
+        $relatedBusinessDeals  = BusinessDeal::where('type', $this->type)->where('id', '!=', $this->id)->orderBy("created_at")->active()->paginate(10);
         $image = null;
         if ($this->medias != null) {
             $image = asset($this->medias->first()->file);

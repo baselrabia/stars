@@ -85,7 +85,7 @@ class EventController extends Controller
     public function show(Event $event)
     {
 
-        return $this->respondWithMessage(new EventLargeResource($event));
+        return $this->respondWithItem(new EventLargeResource($event));
     }
 
 

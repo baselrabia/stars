@@ -55,7 +55,7 @@ class BrochureController extends Controller
      */
     public function show(Brochure $brochure)
     {
-        return $this->respondWithMessage(new BrochureLargeResource($brochure));
+        return $this->respondWithItem(new BrochureLargeResource($brochure));
     }
 
     /**

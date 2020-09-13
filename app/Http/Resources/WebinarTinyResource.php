@@ -14,11 +14,6 @@ class WebinarTinyResource extends JsonResource
      */
     public function toArray($request)
     {
-        $image = null;
-        if ($this->medias != null) {
-            $image = asset($this->medias->first()->file);
-        }
-
         return [
             // id
             // webinar type id      //see "constant"  type upcoming or live or finished
@@ -31,10 +26,10 @@ class WebinarTinyResource extends JsonResource
             // time start
             // time end
             'id' => $this->id,
+            'name' => $this->name,
             'type' => $this->type,
             'is public' => $this->type == "public" ? true : false,
-            'image' => $image,
-            'name' => $this->name,
+            'image' => asset($this->logo),
             'time' => $this->time,
             'start_date' => $this->date,
             // 'end_date' => $this->end_date,

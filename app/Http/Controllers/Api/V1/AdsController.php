@@ -19,7 +19,7 @@ class AdsController extends Controller
      */
     public function show(Ads $ad)
     {
-        return $this->respondWithMessage(new AdsResource($ad));
+        return $this->respondWithItem(new AdsResource($ad));
 
     }
 
