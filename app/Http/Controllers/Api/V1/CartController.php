@@ -38,7 +38,7 @@ class CartController extends Controller
         if (in_array($request->product_id, $carts)) {
             $cart = cart::where('provider_id', $provider->id)->where('product_id', $request->product_id)->first();
             if ($request->has('quantity')) {
-                $cart->update(['quantity' => $request->quantity]);
+                $cart->update(['quantity' =>$cart->quantity + $request->quantity]);
             } else {
                 $cart->update(['quantity' => $cart->quantity + 1]);
             }
