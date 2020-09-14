@@ -56,6 +56,10 @@ Route::group(['namespace' => 'Api\V1'], function () {
     Route::post('posts/like-dislike', 'PostController@LikeDislike');
     Route::post('posts/comment', 'PostController@StoreComment');
 
+    Route::resource('carts', 'CartController');
+
+    Route::delete('carts/delete/all', 'CartController@destroyAll');
+
 });
 
 

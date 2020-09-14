@@ -22,11 +22,11 @@ class Provider extends Model
         'priority',
         'status',
         'logo',
-       
+
     ];
 
     protected $with=['premiumAccount'];
-    
+
     public function scopeActive($query)
     {
         return $query->where('status', 1);
@@ -40,6 +40,11 @@ class Provider extends Model
     public function scopePrioritySorted($query)
     {
         return $query->orderBy('priority');
+    }
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
     }
 
     /**
@@ -113,7 +118,7 @@ class Provider extends Model
         return $this->belongsTo(BusinessType::class,'businessType_id');
     }
 
-  
+
 
         /**
      * Get the branche that this provider belongs to.
@@ -157,8 +162,8 @@ class Provider extends Model
     public function FirstPlan()
     {
         return $this->premiumAccount->first();
-       
+
     }
-    
- 
+
+
 }
