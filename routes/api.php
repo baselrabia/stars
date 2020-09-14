@@ -51,6 +51,10 @@ Route::group(['namespace' => 'Api\V1'], function () {
 
     Route::resource('new_reports', 'NewReportController');
 
+    Route::resource('posts', 'PostController');
+
+    Route::post('posts/like-dislike', 'PostController@LikeDislike');
+    Route::post('posts/comment', 'PostController@StoreComment');
 
 });
 

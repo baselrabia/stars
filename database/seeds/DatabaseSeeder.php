@@ -6,6 +6,7 @@ use App\Models\BusinessDeal;
 use App\Models\Event;
 use App\Models\Needed;
 use App\Models\NewReport;
+use App\Models\Post;
 use App\Models\Product;
 use App\Models\ProductAttribute;
 use App\Models\Webinar;
@@ -24,7 +25,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(UsersTableSeeder::class);
         // DB::truncate();
 
-        factory(ProductAttribute::class, 11)->create();
+        factory(Post::class, 20)->create();
        //factory(App\models\EventTranslation::class, 10)->create();
       // factory(App\models\BusinessTypeTranslation::class, 10)->create();
 
