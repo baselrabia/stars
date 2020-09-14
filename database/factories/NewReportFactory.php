@@ -5,6 +5,7 @@
 use App\Model;
 use App\Models\NewReport;
 use Faker\Generator as Faker;
+use \Str;
 
 $factory->define(NewReport::class, function (Faker $faker) {
     $priority = ['on', 'off'];
@@ -12,7 +13,7 @@ $factory->define(NewReport::class, function (Faker $faker) {
     return [
         'category_new_report_id' => rand(1,5),
         'title' => $title,
-        'slug' =>  \Str::slug($title),
+        'slug' => Str::slug($title),
 
         'content' => $faker->paragraph,
         'image' => $faker->image,

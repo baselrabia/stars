@@ -57,8 +57,11 @@ Route::group(['namespace' => 'Api\V1'], function () {
     Route::post('posts/comment', 'PostController@StoreComment');
 
     Route::resource('carts', 'CartController');
-
     Route::delete('carts/delete/all', 'CartController@destroyAll');
+
+    Route::resource('wishlists', 'WishlistController');
+    Route::delete('wishlists/delete/all', 'WishlistController@destroyAll');
+
 
 });
 

@@ -10,7 +10,7 @@ class Like extends Model
     protected $table = 'like_post';
 
     protected $fillable = [
-        'like'
+        'like','user_id','post_id'
       ];
 
     public function user(){

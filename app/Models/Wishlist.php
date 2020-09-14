@@ -7,19 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Wishlist extends Model
 {
-   
-protected $fillable=['product_id','user_id'];
+    protected $table = 'wishlists';
 
-public function scopeCount($query)
-{
-    return $query->Count('product_id');
-}
 
-public function user(){
-   return $this->belongsTo(User::class);
-}
+    protected $fillable=['product_id','user_id'];
 
-public function product(){
-   return $this->belongsTo(Product::class);
-}
+    public function scopeCount($query)
+    {
+        return $query->Count('product_id');
+    }
+
+    public function user(){
+    return $this->belongsTo(User::class);
+    }
+
+    public function product(){
+    return $this->belongsTo(Product::class);
+    }
 }
