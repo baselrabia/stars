@@ -18,7 +18,7 @@ class CompareProductResource extends JsonResource
     {
         $provider = Provider::whereId($this->provider_id)->firstOrFail();
         $category = Category::whereId($this->category_id)->firstOrFail();
-        
+
         // dd($this->name);
         return [
             'id' => $this->id,
@@ -26,6 +26,7 @@ class CompareProductResource extends JsonResource
             'description' => $this->description,
             'provider_id' => new ProviderTinyResource($provider),
             'category_id' => new CategoryTinyResource($category),
+            'product_attributes' => new ProductAttributesResource($this->productAttribute),
             'price_per_item' => $this->price_per_item,
             'price_lot_from' => $this->price_lot_from,
             'price_lot_to' => $this->price_lot_to,

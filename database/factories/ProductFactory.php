@@ -29,3 +29,5 @@ $factory->define(Product::class, function (Faker $faker) {
         'location' => $location[rand(0, 1)],
     ];
 });
+
+

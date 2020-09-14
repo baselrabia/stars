@@ -12,11 +12,11 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
 
-    public function compare(Request $request)
+    public function compare()
     {
-        if(!$request->has('product')) return $this->errorNotFound();
+        if(!request()->has('product')) return $this->errorNotFound();
 
-        $productArray = $request->all()['product'];
+        $productArray = request()->all()['product'];
         foreach ($productArray as $id) {
             $product = Product::where('id', $id)->first();
             if (!$product) {

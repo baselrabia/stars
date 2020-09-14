@@ -49,6 +49,8 @@ Route::group(['namespace' => 'Api\V1'], function () {
     Route::resource('webinars', 'WebinarController');
     Route::post('webinars/filter', 'WebinarController@filter');
 
+    Route::resource('new_reports', 'NewReportController');
+
 
 });
 

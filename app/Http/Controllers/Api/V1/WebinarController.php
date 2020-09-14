@@ -37,6 +37,8 @@ class WebinarController extends Controller
         $provider_id = Auth::user()->provider->id;
         $logo = upload($request->logo, 'webinars');
         $webinar = Webinar::create(array_merge($request->all(), ['provider_id' => $provider_id, 'logo' => $logo]));
+        $webinar->categories()->sync([$request->categories_ids]);
+        $webinar->providers()->sync([$request->providers_ids]);
 
         return $this->respondCreated(new WebinarTinyResource($webinar));
     }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductAttribute extends Model
 {
-    
+
     protected $fillable = [
         'brand',
         'size',
@@ -23,7 +23,7 @@ class ProductAttribute extends Model
         'in_stock',
     ];
     protected $with  = ['product','placeOfOrigin','deliveryLocation','shipmentLocation'];
-   
+
     /**
      * linke product to product attribute table.
      */
@@ -38,14 +38,14 @@ class ProductAttribute extends Model
     public function placeOfOrigin()
     {
         return $this->belongsTo(Country::class,'place_of_origin');
-    } 
+    }
     /**
      * Get the country name that this delivery_location belongs to in product attribute table.
      */
     public function deliveryLocation()
     {
         return $this->belongsTo(Country::class,'delivery_location');
-    } 
+    }
     /**
      * Get the country name that this shipment_location belongs to in product attribute table.
      */
@@ -53,5 +53,6 @@ class ProductAttribute extends Model
     {
         return $this->belongsTo(Country::class,'shipment_location');
     }
+    public $timestamps = false;
 
 }

@@ -19,25 +19,18 @@ class WebinarLargeResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'type' => $this->type,
+            'provider' => new ProviderTinyResource($this->provider),
             'is public' => $this->type == "public" ? true : false,
             'image' => asset($this->logo),
             'time' => $this->time,
             'start_date' => $this->date,
             // 'end_date' => $this->end_date,
 
-            // select a host        //example: youtube
-            // link of host        //example: youtube/xxxxxxx
-            // summary
-            // description
-            // country name + flag
-            // suppliers for cateogory ids:   json array of category id
-
             // - list of model Message
 
             // -------------------------------------- video
             // download url                  //download url to see finished video
             // dynamic url                //when video is live
-
             'host' => $this->host,
             'link_of_host' => $this->link,
             'summary' => $this->summary,
