@@ -61,8 +61,8 @@ class ProviderController extends Controller
         if ($provider->id == null) {
             $provider = Auth::user()->provider;
         }
-
-        $provider->update(array_merge($request->all(), ['password' => Hash::make($request->password)]));
+// dd($request->all());
+        $provider->update($request->all());
         $provider->user->update(array_merge($request->all(), ['password' => Hash::make($request->password)]));
 
         return $this->respondWithItem(new ProviderTinyResource($provider), 'provider Updated');
