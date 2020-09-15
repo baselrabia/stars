@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Provider\StoreProviderRequest;
 use App\Http\Requests\Provider\UpdateProviderRequest;
 use App\Http\Resources\ProviderLargeResource;
 use App\Http\Resources\ProviderTinyResource;
@@ -35,9 +36,29 @@ class ProviderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProviderRequest $request)
     {
-        //
+
+        $user = Auth::user();
+
+        if ($user->provider != null) return $this->errorForbidden();
+        // dd($request->all());
+
+        $user->update(['type' => 'provider']);
+
+        $provider = Provider::create(array_merge($request->all(),['user_id' => $user->id]) );
+
+        if($request->logo){
+            $logo = upload($request->logo, 'providers');
+            $provider->update(['logo' => $logo]);
+        }
+         if($request->video){
+            $video = upload($request->video, 'providers');
+            $provider->update(['video' => $video]);
+        }
+
+        return $this->respondWithItem(new ProviderLargeResource($provider), 'provider Updated');
+
     }
 
     /**
@@ -66,9 +87,9 @@ class ProviderController extends Controller
         if ($provider->id == null) {
             $provider = Auth::user()->provider;
         }
-// dd($request->all());
+
         $provider->update($request->all());
-        $provider->user->update(array_merge($request->all(), ['password' => Hash::make($request->password)]));
+        $provider->user->update(array_merge($request->except('type'), ['password' => Hash::make($request->password)]));
 
         return $this->respondWithItem(new ProviderLargeResource($provider), 'provider Updated');
     }
