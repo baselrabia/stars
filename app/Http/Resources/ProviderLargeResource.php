@@ -31,6 +31,7 @@ class ProviderLargeResource extends JsonResource
             'logo' => $this->logo,
             'countries' => new CountryCollection($this->countries),
             'categories' => new CategoryCollection($this->categories),
+            'branches'  => new BranchCollection($this->branches),
         ];
     }
 }

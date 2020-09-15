@@ -123,7 +123,7 @@ class Provider extends Model
         /**
      * Get the branche that this provider belongs to.
      */
-    public function branche()
+    public function branches()
     {
         return $this->hasMany(Branche::class,'provider_id','id');
     }
