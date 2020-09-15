@@ -30,10 +30,10 @@ class BranchController extends Controller
      */
     public function store(StoreBranchRequest $request)
     {
+        if (!Auth::user()) return $this->errorForbidden();
         if (!Auth::user()->provider) return $this->errorUnauthorized();
         $provider = Auth::user()->provider;
 
-        dd($request);
         $branche = Branche::create(array_merge($request->all(), ['provider_id' => $provider->id]));
         return $this->respondCreated(new BranchResource($branche));
 
@@ -45,9 +45,9 @@ class BranchController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Branche $branche)
+    public function show(Branche $branch)
     {
-        return $this->respondWithItem(new BranchResource($branche));
+        return $this->respondWithItem(new BranchResource($branch));
 
     }
 
@@ -69,8 +69,9 @@ class BranchController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Branche $branch)
     {
-        //
+        $branch->delete();
+        return $this->respondWithMessage("item Deleted");
     }
 }
