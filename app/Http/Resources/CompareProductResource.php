@@ -25,7 +25,7 @@ class CompareProductResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'provider_id' => new ProviderTinyResource($provider),
-            'category_id' => new CategoryTinyResource($category),
+            'category_id' => new CategoryResource($category),
             'product_attributes' => new ProductAttributesResource($this->productAttribute),
             'price_per_item' => $this->price_per_item,
             'price_lot_from' => $this->price_lot_from,

@@ -14,6 +14,7 @@ class ProviderLargeResource extends JsonResource
      */
     public function toArray($request)
     {
+        // dd($this->categories);
         return [
             'id' => $this->id,
             'user' => new UserResource($this->user),
@@ -28,6 +29,8 @@ class ProviderLargeResource extends JsonResource
             'portfolio' => $this->portfolio,
             'video' => $this->video,
             'logo' => $this->logo,
+            'countries' => new CountryCollection($this->countries),
+            'categories' => new CategoryCollection($this->categories),
         ];
     }
 }

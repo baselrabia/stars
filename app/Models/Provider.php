@@ -60,7 +60,7 @@ class Provider extends Model
      */
     public function categories()
     {
-        return $this->belongsToMany(Category::class,'category_provider','provider_id','category_id')->withPivot('provider_id','category_id');
+        return $this->belongsToMany(Category::class,'category_provider')->withPivot('provider_id','category_id');
     }
 
     /**
