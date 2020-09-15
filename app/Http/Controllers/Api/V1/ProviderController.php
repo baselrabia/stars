@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Provider\FilterProviderRequest;
 use App\Http\Requests\Provider\StoreProviderRequest;
 use App\Http\Requests\Provider\UpdateProviderRequest;
+use App\Http\Resources\ProviderCollection;
 use App\Http\Resources\ProviderLargeResource;
 use App\Http\Resources\ProviderTinyResource;
 use App\Models\Ads;
@@ -47,6 +49,8 @@ class ProviderController extends Controller
         $user->update(['type' => 'provider']);
 
         $provider = Provider::create(array_merge($request->all(),['user_id' => $user->id]) );
+        $provider->categories()->attach($request->categories_ids);
+        $provider->countries()->attach($request->countries_ids);
 
         if($request->logo){
             $logo = upload($request->logo, 'providers');
@@ -57,7 +61,7 @@ class ProviderController extends Controller
             $provider->update(['video' => $video]);
         }
 
-        return $this->respondWithItem(new ProviderLargeResource($provider), 'provider Updated');
+        return $this->respondWithItem(new ProviderLargeResource($provider), 'provider created');
 
     }
 
@@ -72,6 +76,37 @@ class ProviderController extends Controller
         $Ad = Ads::Location('upNewsReports')->first();
 
         return $this->respondWithItem(['provider' => new ProviderLargeResource($provider), 'Ad' => $Ad]);
+
+    }
+
+    /**
+     * Filter a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filter(FilterProviderRequest $request)
+    {
+        $sort_type = 'DESC';
+        if ($request->has('sort_type') && $request['sort_type'] == 'a') {
+            $sort_type = 'ASC';
+        }
+
+        $providers = Provider::Active();
+        if ($request->has('type')) {
+            $providers->where('type', $request['type']);
+        }
+        if ($request->has('country')) {
+            $providers->where('country', $request['country']);
+        }
+        $Ad = Ads::Location('upNewsReports')->first();
+
+        return  [
+            'providers' => new ProviderCollection(
+                $providers->orderBy("created_at", $sort_type)->paginate(10)
+            ),
+            'Ad' => $Ad
+        ];
 
     }
 
