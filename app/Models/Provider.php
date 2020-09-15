@@ -9,7 +9,7 @@ class Provider extends Model
 {
     protected $fillable=[
         'user_id',
-        'business_Type_id',
+        'businessType_id',
         'company_fullname',
         'company_name_ar',
         'company_short_name',
@@ -115,7 +115,7 @@ class Provider extends Model
      */
     public function businessType()
     {
-        return $this->belongsTo(BusinessType::class,'businessType_id');
+        return $this->hasOne(BusinessType::class,'businessType_id');
     }
 
 

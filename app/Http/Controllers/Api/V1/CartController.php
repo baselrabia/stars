@@ -24,10 +24,6 @@ class CartController extends Controller
      */
     public function index()
     {
-        if(!Auth::user()){
-            return 123;
-        }
-
         return new CartCollection(
             Auth::user()->provider->carts
         );

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Provider\UpdateProviderRequest;
+use App\Http\Resources\ProviderLargeResource;
 use App\Http\Resources\ProviderTinyResource;
+use App\Models\Ads;
 use App\Models\Provider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,10 +22,11 @@ class ProviderController extends Controller
     public function index()
     {
         if (!Auth::user()->provider) return $this->errorUnauthorized();
-
-        return $this->respondWithItem(
-            new ProviderTinyResource(Auth::user()->provider)
-        );
+        $Ad = Ads::Location('upNewsReports')->first();
+        return $this->respondWithItem([
+            'provider' => new ProviderLargeResource(Auth::user()->provider),
+            'Ad' => $Ad
+        ]);
     }
 
     /**
@@ -45,7 +48,9 @@ class ProviderController extends Controller
      */
     public function show(Provider $provider)
     {
-        return $this->respondWithItem(new ProviderTinyResource($provider));
+        $Ad = Ads::Location('upNewsReports')->first();
+
+        return $this->respondWithItem(['provider' => new ProviderLargeResource($provider), 'Ad' => $Ad]);
 
     }
 
@@ -65,7 +70,7 @@ class ProviderController extends Controller
         $provider->update($request->all());
         $provider->user->update(array_merge($request->all(), ['password' => Hash::make($request->password)]));
 
-        return $this->respondWithItem(new ProviderTinyResource($provider), 'provider Updated');
+        return $this->respondWithItem(new ProviderLargeResource($provider), 'provider Updated');
     }
 
     /**
