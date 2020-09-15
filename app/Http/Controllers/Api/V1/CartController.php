@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,6 +24,10 @@ class CartController extends Controller
      */
     public function index()
     {
+        if(!Auth::user()){
+            return 123;
+        }
+
         return new CartCollection(
             Auth::user()->provider->carts
         );

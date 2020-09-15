@@ -62,6 +62,11 @@ Route::group(['namespace' => 'Api\V1'], function () {
     Route::resource('wishlists', 'WishlistController');
     Route::delete('wishlists/delete/all', 'WishlistController@destroyAll');
 
+    Route::resource('profile', 'UserController');
+    Route::post('profile/update', 'UserController@update');
+
+    Route::resource('provider', 'ProviderController');
+    Route::post('provider/update', 'ProviderController@update');
 
 });
 
