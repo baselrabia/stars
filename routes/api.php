@@ -67,6 +67,10 @@ Route::group(['namespace' => 'Api\V1'], function () {
 
     Route::resource('provider', 'ProviderController');
     Route::post('provider/update', 'ProviderController@update');
+    Route::post('provider/filter', 'ProviderController@filter');
+
+    Route::resource('branches', 'BranchController');
+
 
 });
 

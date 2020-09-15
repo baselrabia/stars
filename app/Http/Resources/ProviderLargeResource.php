@@ -14,7 +14,7 @@ class ProviderLargeResource extends JsonResource
      */
     public function toArray($request)
     {
-        // dd($this->categories);
+        dd($this->categories);
         return [
             'id' => $this->id,
             'user' => new UserResource($this->user),

@@ -48,9 +48,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(User $profile)
     {
-        return $this->respondWithItem(new UserResource($user));
+        return $this->respondWithItem(new UserResource($profile));
 
     }
 
@@ -61,15 +61,15 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUserRequest $request,User $user)
+    public function update(UpdateUserRequest $request,User $profile)
     {
-        if($user->id == null){
-            $user = Auth::user();
+        if($profile->id == null){
+            $profile = Auth::user();
         }
 
-        $user->update(array_merge($request->all(),['password' => Hash::make($request->password)]));
+        $profile->update(array_merge($request->all(),['password' => Hash::make($request->password)]));
 
-        return $this->respondWithItem(new UserResource($user),'User Updated');
+        return $this->respondWithItem(new UserResource($profile), 'User profile Updated');
     }
 
     /**
@@ -78,9 +78,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(User $profile)
     {
-        $user->delete();
+        $profile->delete();
         return $this->respondWithMessage("item Deleted");
     }
 }

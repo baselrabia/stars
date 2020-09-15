@@ -93,10 +93,10 @@ class ProviderController extends Controller
         }
 
         $providers = Provider::Active();
-        if ($request->has('type')) {
+        if ($request->has('categories')) {
             $providers->where('type', $request['type']);
         }
-        if ($request->has('country')) {
+        if ($request->has('countries')) {
             $providers->where('country', $request['country']);
         }
         $Ad = Ads::Location('upNewsReports')->first();
