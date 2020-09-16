@@ -9,23 +9,25 @@ class Quotation extends Model
 {
     public static function boot() {
         parent::boot();
-        
-        ## add point to provider when create 
+
+        ## add point to provider when create
         self::created(function($quotation) {
             $type = class_basename($quotation);
-            
-            event(new CreateService($quotation,$type));
+
+            // event(new CreateService($quotation,$type));
         });
-      
+
     }
     protected $fillable = [
-        'type',        
+        'type',
         'payment_term',
         'delivery_term',
         'delivery_date',
         'delivery_location',
         'note',
         'attachment',
+        'species',
+        'provider_id'
     ];
 
     protected $with = ['providers','products','bidManagement','externalProductQuotation'];
@@ -39,13 +41,21 @@ class Quotation extends Model
     }
 
     /**
+     * Get the provider that this webinars belongs to.
+     */
+    public function provider()
+    {
+        return $this->belongsTo(Provider::class, 'provider_id');
+    }
+
+    /**
      * Get the products that this quotations belongs to.
      */
     public function providers()
     {
         return $this->belongsToMany(Provider::class,'provider_quotation')->withPivot('status');
-    } 
-    
+    }
+
     /**
      * Get the products that this quotations belongs to.
      */
@@ -62,7 +72,7 @@ class Quotation extends Model
         return $this->hasMany(BidManagement::class,'quotation_id','id');
     }
   /**
-     * 
+     *
      */
     public function externalProductQuotation()
     {

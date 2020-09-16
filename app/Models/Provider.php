@@ -64,6 +64,14 @@ class Provider extends Model
     }
 
     /**
+     * Get the countries that this provider belongs to.
+     */
+    public function countries()
+    {
+        return $this->belongsToMany(Country::class, 'country_provider')->withPivot('provider_id', 'country_id');
+    }
+
+    /**
      * Get the businessDeals that this provider belongs to.
      */
     public function businessDeals()
@@ -97,14 +105,7 @@ class Provider extends Model
     {
         return $this->hasMany(Event::class,'provider_id');
     }
-     /**
-     * Get the countries that this provider belongs to.
-     */
-    public function countries()
-    {
-        return $this->belongsToMany(Country::class,'country_provider')->withPivot('provider_id','country_id');
 
-    }
     public function firstCountry()
     {
         return $this->countries->first();

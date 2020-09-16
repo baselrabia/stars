@@ -4,9 +4,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class BranchCollection extends ResourceCollection
+class QuotationCollection extends ResourceCollection
 {
-    public $collects = BranchResource::class;
+    public $collects = QuotationLargeResource::class;
     /**
      * Transform the resource collection into an array.
      *
@@ -15,6 +15,10 @@ class BranchCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return  $this->collection;
+        return [
+            'http_code' => 200,
+            'data' => $this->collection,
+            'message' => __('successful')
+        ];
     }
 }
