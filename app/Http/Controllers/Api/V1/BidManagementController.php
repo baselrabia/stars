@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BidManagements\StoreBidManagementRequest;
+use App\Http\Resources\BidManagementCollection;
 use App\Http\Resources\BidManagementLargeResource;
 use App\Http\Resources\QuotationCollection;
 use App\Models\BidManagement;
@@ -91,6 +92,29 @@ class BidManagementController extends Controller
     public function show(BidManagement $bidmanagement)
     {
         return $this->respondWithItem(new BidManagementLargeResource($bidmanagement));
+    }
+
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function compare()
+    {
+        if (!(Auth::user())) return $this->errorUnauthorized();
+        if (Auth::user()->provider == null) return $this->errorForbidden();
+        if (count(Auth::user()->provider->quotation) == 0) return $this->errorForbidden();
+
+        $bidManagements = Auth::user()->provider->quotation;
+        $bidcollection = $bidManagements->first()->BidManagement;
+
+        $arrayOfBidIds = $bidManagements->pluck('id')->toArray();
+        if(in_array(request('quotation_id'), $arrayOfBidIds)){
+            $bidcollection = $bidManagements->where('id', request('quotation_id'))->first()->BidManagement;
+        }
+
+        return new BidManagementCollection($bidcollection);
     }
 
     /**

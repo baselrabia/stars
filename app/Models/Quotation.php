@@ -31,7 +31,7 @@ class Quotation extends Model
     ];
 
 
-    protected $with = ['providers','products'];
+    protected $with = ['providers','products', 'bidManagement','externalProductQuotation'];
 
     /**
      * Get the products that this quotations belongs to.

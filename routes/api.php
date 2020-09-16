@@ -29,6 +29,7 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['namespace' => 'Api\V1'], function () {
 
+
     Route::resource('events', 'EventController');
     Route::post('events/filter', 'EventController@filter');
 
@@ -72,8 +73,10 @@ Route::group(['namespace' => 'Api\V1'], function () {
     Route::resource('branches', 'BranchController');
 
     Route::resource('quotations', 'QuotationController');
-    
+
     Route::resource('bidmanagements', 'BidManagementController');
+
+    Route::get('bidmanagement/compare', 'BidManagementController@compare');
 
 });
 

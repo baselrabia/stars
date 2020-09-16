@@ -143,6 +143,20 @@ class Provider extends Model
     {
         return $this->hasMany(Product::class,'provider_id');
     }
+    /**
+     * Get the brochure Type that this provider belongs to.
+     */
+    public function bidmanagement()
+    {
+        return $this->hasMany(BidManagement::class, 'provider_id');
+    }
+    /**
+     * Get the brochure Type that this provider belongs to.
+     */
+    public function quotation()
+    {
+        return $this->hasMany(Quotation::class, 'provider_id');
+    }
 
      /**
      * Get the quotations that this providers belongs to.

@@ -54,9 +54,6 @@ class Handler extends ExceptionHandler
         }
 
         if ($request->expectsJson()) {
-            if (in_array('api', \Route::getCurrentRoute()->computedMiddleware)) {
-                return response()->json(['error' => 'Unauthenticated..'], 401);
-            }
             return response()->json([
                 "http_code" => 404 ,
                 "message" => $exception->getMessage()],404);
