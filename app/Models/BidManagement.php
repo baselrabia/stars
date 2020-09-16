@@ -7,19 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class BidManagement extends Model
 {
     protected $fillable = [
-        'type',        
-        'provider_id',        
-        'quotation_id',        
-        'type',        
-        'price_per_item',        
-          
+        'type',
+        'provider_id',
+        'quotation_id',
         'payment_term',
         'delivery_term',
         'delivery_date',
         'delivery_location',
         'note',
         'status',
-       
+
     ];
 
       /**
@@ -37,7 +34,7 @@ class BidManagement extends Model
     {
         return $this->belongsTo(Quotation::class,'quotation_id','id');
     }
-    
+
     /**
      * Get the products that this quotations belongs to.
      */
@@ -45,7 +42,7 @@ class BidManagement extends Model
     {
         return $this->belongsTo(Provider::class,'provider_id','id');
     }
-    
+
     /**
      * Get the products that this quotations belongs to.
      */

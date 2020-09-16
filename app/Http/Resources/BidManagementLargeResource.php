@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class QuotationLargeResource extends JsonResource
+class BidManagementLargeResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -23,8 +23,6 @@ class QuotationLargeResource extends JsonResource
             'delivery_date' => $this->delivery_date,
             'delivery_location' => $this->delivery_location,
             'note' => $this->note,
-            'attachment' => $this->attachment ? asset($this->attachment) : $this->attachment,
-            'providers' =>  new ProviderCollection($this->providers),
             'products' => new ProductCollection($this->products),
         ];
     }

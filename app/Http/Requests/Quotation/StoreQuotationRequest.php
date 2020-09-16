@@ -29,14 +29,14 @@ class StoreQuotationRequest extends APIRequest
             'payment_term' => 'required|string|min:6',
             'delivery_term' => 'required|string|min:6',
             'delivery_date' => 'required|date_format:Y-m-d',
-            'delivery_location' => 'required|numeric',
+            'delivery_location' => 'required|numeric|gt:0',
             'note' => 'string|min:6',
             'attachment' => 'string|min:6',
             'species' => 'required|in:internal,external',
             'providers_ids' => 'required|exists:providers,id',
             'products_ids' => 'required|exists:products,id',
             'quantities' => 'required|array',
-            'quantities.*' => 'integer',
+            'quantities.*' => 'numeric|gt:0',
         ];
     }
 }

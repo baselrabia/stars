@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BidManagements\StoreBidManagementRequest;
+use App\Http\Resources\BidManagementLargeResource;
 use App\Http\Resources\QuotationCollection;
 use App\Models\BidManagement;
 use App\Models\Quotation;
@@ -38,9 +40,46 @@ class BidManagementController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBidManagementRequest $request)
     {
-        //
+        if (!(Auth::user())) return $this->errorUnauthorized();
+        if (Auth::user()->provider == null) return $this->errorForbidden();
+
+        if (count(Auth::user()->provider->quotations) == 0) return $this->errorForbidden();
+        $provider_id = Auth::user()->provider->id;
+
+        $quotation = Quotation::whereId($request->quotation_id)->first();
+
+        $bidmanagement = BidManagement::create([
+            'provider_id' => $provider_id,
+            'type' => $request->type,
+            'quotation_id' => $request->quotation_id,
+            'status' => $request->status,
+            'payment_term' => $request->payment_term ?? $quotation->payment_term,
+            'delivery_term' => $request->delivery_term ?? $quotation->delivery_term,
+            'delivery_date' => $request->delivery_date ?? $quotation->delivery_date,
+            'delivery_location' => $request->delivery_location ?? $quotation->delivery_location,
+            'note' => $request->note ?? null,
+            ]);
+
+        $products = $quotation->products->pluck('id')->toArray();
+        //Attach  Quantity - Product
+        $bidmanagement->products()->attach($products);
+
+
+        // after insert product id update row and insert quantities values
+        foreach ($quotation->products as $key =>  $product) {
+            $bidmanagement->products()->updateExistingPivot($product->id, [
+                'quantities'   => $request['quantities'][$key] ?? $product->pivot->quantities,
+                'price'   => $request['price_per_item'][$key] ?? $product->price_per_item,
+            ]);
+        }
+
+        // ##
+        // // Send Email To the Providers Which Chosen In Quotation
+        // ##
+
+        return $this->respondCreated(new BidManagementLargeResource($bidmanagement));
     }
 
     /**
@@ -51,7 +90,7 @@ class BidManagementController extends Controller
      */
     public function show(BidManagement $bidmanagement)
     {
-        
+        return $this->respondWithItem(new BidManagementLargeResource($bidmanagement));
     }
 
     /**
