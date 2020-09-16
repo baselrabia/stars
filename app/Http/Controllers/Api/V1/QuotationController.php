@@ -29,6 +29,7 @@ class QuotationController extends Controller
      */
     public function store(StoreQuotationRequest $request)
     {
+        dd(123);
         if (!(Auth::user())) return $this->errorUnauthorized();
         if (Auth::user()->provider == null) return $this->errorForbidden();
         $provider_id = Auth::user()->provider->id;

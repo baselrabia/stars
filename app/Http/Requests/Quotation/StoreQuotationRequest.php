@@ -32,7 +32,11 @@ class StoreQuotationRequest extends APIRequest
             'delivery_location' => 'required|numeric',
             'note' => 'string|min:6',
             'attachment' => 'string|min:6',
-            'species' => 'required|in:internal,external'
+            'species' => 'required|in:internal,external',
+            'providers_ids' => 'required|exists:providers,id',
+            'products_ids' => 'required|exists:products,id',
+            'quantities' => 'required|array',
+            'quantities.*' => 'integer',
         ];
     }
 }

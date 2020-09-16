@@ -72,6 +72,8 @@ Route::group(['namespace' => 'Api\V1'], function () {
     Route::resource('branches', 'BranchController');
 
     Route::resource('quotations', 'QuotationController');
+    
+    Route::resource('bidmanagements', 'BidManagementController');
 
 });
 
