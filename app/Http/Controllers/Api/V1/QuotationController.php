@@ -40,6 +40,23 @@ class QuotationController extends Controller
             $quotation->update(['attachment' => $attachment]);
         }
 
+        //    Attach     providers ['providers','products']
+        $quotation->providers()->attach($request->providers_ids);
+
+        //Attach  Quantity - Product
+        $quotation->products()->attach($request->products_ids);
+
+        // after insert product id update row and insert quantities values
+        foreach ($quotation->products as $key =>  $product) {
+            $quotation->products()->updateExistingPivot($product->id, [
+                'quantities'   => $request['quantities'][$key],
+            ]);
+        }
+
+        ##
+            // Send Email To the Providers Which Chosen In Quotation
+        ##
+
         return $this->respondCreated(new QuotationLargeResource($quotation));
     }
 

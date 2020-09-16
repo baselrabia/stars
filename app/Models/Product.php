@@ -111,7 +111,7 @@ class Product extends Model
     /**
      * Get the quotations that this products belongs to.
      */
-    public function quotatins()
+    public function quotations()
     {
         return $this->belongsToMany(Quotation::class,'product_quotation')->withPivot('quantities');
     }

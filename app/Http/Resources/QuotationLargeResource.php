@@ -24,6 +24,9 @@ class QuotationLargeResource extends JsonResource
             'delivery_location' => $this->delivery_location,
             'note' => $this->note,
             'attachment' => $this->attachment ? asset($this->attachment) : $this->attachment,
+            'delivery_date' => $this->delivery_date,
+            'providers' =>  new ProviderCollection($this->providers),
+            'products' => new ProductCollection($this->products),
         ];
     }
 }
