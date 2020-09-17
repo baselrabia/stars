@@ -77,6 +77,7 @@ Route::group(['namespace' => 'Api\V1'], function () {
     Route::resource('bidmanagements', 'BidManagementController');
 
     Route::get('bidmanagement/compare', 'BidManagementController@compare');
+    Route::get('bidmanagement/allquotation', 'BidManagementController@allQuotation');
 
 });
 

@@ -94,9 +94,25 @@ class BidManagementController extends Controller
         return $this->respondWithItem(new BidManagementLargeResource($bidmanagement));
     }
 
-
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function allQuotation()
+    {
+        if (!(Auth::user())) return $this->errorUnauthorized();
+        if (Auth::user()->provider == null) return $this->errorForbidden();
+        if (count(Auth::user()->provider->quotation) == 0) return $this->errorForbidden();
+
+        $bidManagements = Auth::user()->provider->quotation->all();
+
+        return new BidManagementCollection($bidManagements);
+    }
+
+
+    /**
+     * Compare a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
