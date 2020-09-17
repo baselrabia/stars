@@ -44,8 +44,6 @@ class ProductTinyResource extends JsonResource
             'available' => $this->available,
             'provider_id' => $this->provider_id,
             'location' => $this->location,
-            // 'quantity' =>  $this->quotations() ? $this->quotations()->where('product_id', $this->id)->first()->pivot->quantities : null ,
-            // 'bidsManagement-price' =>  $this->bidmanagements() ? $this->bidmanagements()->where('product_id', $this->id)->first()->pivot->price : null,
 
         ];
     }

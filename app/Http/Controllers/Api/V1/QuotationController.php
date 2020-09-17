@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Quotation\StoreQuotationRequest;
+use App\Http\Resources\BidManagementCollection;
 use App\Http\Resources\QuotationLargeResource;
 use App\Models\Quotation;
 use Illuminate\Http\Request;
@@ -18,7 +19,13 @@ class QuotationController extends Controller
      */
     public function index()
     {
-        //
+        if (!(Auth::user())) return $this->errorUnauthorized();
+        if (Auth::user()->provider == null) return $this->errorForbidden();
+        if (count(Auth::user()->provider->quotation) == 0) return $this->errorForbidden();
+
+        $bidManagements = Auth::user()->provider->quotation->all();
+
+        return new BidManagementCollection($bidManagements);
     }
 
     /**
@@ -70,6 +77,29 @@ class QuotationController extends Controller
     {
         return $this->respondWithItem(new QuotationLargeResource($quotation));
     }
+
+    /**
+     * Compare a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function compare()
+    {
+        if (!(Auth::user())) return $this->errorUnauthorized();
+        if (Auth::user()->provider == null) return $this->errorForbidden();
+        if (count(Auth::user()->provider->quotation) == 0) return $this->errorForbidden();
+
+        $bidManagements = Auth::user()->provider->quotation;
+        $bidcollection = $bidManagements->first()->BidManagement;
+
+        $arrayOfBidIds = $bidManagements->pluck('id')->toArray();
+        if (in_array(request('quotation_id'), $arrayOfBidIds)) {
+            $bidcollection = $bidManagements->where('id', request('quotation_id'))->first()->BidManagement;
+        }
+
+        return new BidManagementCollection($bidcollection);
+    }
+
 
     /**
      * Update the specified resource in storage.

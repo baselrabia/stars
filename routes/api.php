@@ -73,11 +73,10 @@ Route::group(['namespace' => 'Api\V1'], function () {
     Route::resource('branches', 'BranchController');
 
     Route::resource('quotations', 'QuotationController');
+    Route::get('quotation/compare', 'QuotationController@compare');
 
     Route::resource('bidmanagements', 'BidManagementController');
 
-    Route::get('bidmanagement/compare', 'BidManagementController@compare');
-    Route::get('bidmanagement/allquotation', 'BidManagementController@allQuotation');
 
 });
 

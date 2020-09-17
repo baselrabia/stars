@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class BidManagement extends Model
 {
@@ -18,6 +19,13 @@ class BidManagement extends Model
         'status',
 
     ];
+
+
+    public function pivot()
+    {
+        return DB::table('bidmanagement_product')->where('bid_management_id', $this->id)->get()->toArray();
+
+    }
 
       /**
      * Get the products that this quotations belongs to.
