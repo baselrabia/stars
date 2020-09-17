@@ -118,8 +118,8 @@ class Product extends Model
      /**
      * Get the quotations that this products belongs to.
      */
-    public function bidsManagement()
+    public function bidmanagements()
     {
-        return $this->belongsToMany(BidManagement::class,'bidManagement_product','bid_management_id','product_id')->withPivot('quantities','price');
+        return $this->belongsToMany(BidManagement::class, 'bidmanagement_product')->withPivot('quantities', 'price');
     }
 }
